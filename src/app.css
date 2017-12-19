@@ -1,0 +1,38 @@
+@import 'style/variables';
+
+.columns {
+    flex: 1;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.column {
+    flex: 1;
+}
+
+.left {
+    composes: column;
+    text-align: right;
+
+    padding-right: 30px;
+    padding-left: 30px;
+    padding-top: 50px;
+}
+
+.right {
+    composes: column;
+    background-color: white;
+
+    padding-left: 30px;
+    padding-top: 50px;
+    color: var(--base);
+}
+
+.contact > ul {
+    list-style-type: none;
+}
+.contact li {
+    display: inline-block;
+    padding-left: 15px;
+    color: white;
+}
