@@ -34,6 +34,10 @@ module.exports = {
                 test: /\.json$/,
                 loader: 'json-loader'
             },
+            {
+                test: /\.yaml$/,
+                loader: 'json-loader!yaml-loader'
+            },
             // style from our source base
             {
                 test: /\.css$/,

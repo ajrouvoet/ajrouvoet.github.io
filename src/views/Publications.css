@@ -1,0 +1,66 @@
+.Author {
+    font-size: 15pt;
+}
+
+.Abstract {
+    text-align: justify;
+    border-bottom: 1px solid #ddd;
+
+    transition-property: max-height, box-shadow;
+    transition-duration: 300ms;
+    transition-timing-function: ease-out;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 15pt;
+}
+
+.Abstract.fold {
+    max-height: 100px;
+    box-shadow: inset 0 -10px 10px -10px #ddd;
+    cursor: pointer;
+}
+
+.Abstract.unfold {
+    max-height: 3000px;
+}
+
+.Abstract.fold.hover {
+    max-height: 120px;
+    box-shadow: inset 0 -10px 10px -10px #888;
+}
+
+.Publication {
+    border-bottom: 1px solid #ccc;
+
+    padding: 30px;
+    padding-bottom: 0px;
+}
+
+.Publication h3 {
+}
+
+.Publication .Links {
+    padding: 10px;
+    font-size: 17px;
+}
+
+.Publication .Links li {
+    display: inline-block;
+    margin-right: 30px;
+}
+
+.Publication .Links :global(.fa) {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.Publication .Links a {
+    color: black;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.Publication .Links a:hover {
+    color: purple;
+}

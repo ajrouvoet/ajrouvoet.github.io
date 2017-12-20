@@ -1,0 +1,33 @@
+- authors:
+
+  - who: A.J. Rouvoet
+    affiliation: TU Delft
+  - who: S. Stucki (Supervisor)
+    affiliation: EPFL
+  - who: E. Meijer (Supervisor)
+    affiliation: TU Delft
+
+  subtitle: A thesis submitted for the degree of Master of Computer Science at the
+    Technical University Delft
+
+  publication:
+
+  title: Programs for Free
+
+  abstract: >
+    Implicit resolution has been part of the Scala language for a while, but the formal system
+    it constitutes and its properties have not been formalized. Oliveira et al. were the first
+    to formalize a calculus of implicits λ⇒ based on the ideas of implicits in Scala. We
+    propose a stronger calculus λS⇒, extending their results and closing the gap with the
+    maximum achievable expressiveness of resolution on top of System F. We believe that
+    the strengthened results provide new insights into implicit resolution and are a big step
+    towards a formalization that is entirely faithful to Scala.
+
+    We give a partial algorithm for λS⇒ and use a proof-technique proposed by Abel & Altenkirch
+    to establish its soundness and partial completeness independent of termination.
+    To ensure that our results are correct and that it can be extended in the future, we made
+    the language and proofs precise in the Agda dependently typed language.
+
+  links:
+    pdf: https://repository.tudelft.nl/islandora/object/uuid:aef3c8fc-677a-4ecd-8850-d9d76937ba6f/datastream/OBJ/download
+    code: https://github.com/ElessarWebb/implicits.agda

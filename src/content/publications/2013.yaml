@@ -1,0 +1,28 @@
+- authors:
+
+  - who: A.J. Rouvoet
+    affiliation: TU Delft
+  - who: E. Schoute
+    affiliation: TU Delft
+  - who: A.B. Booij
+    affiliation: TU Delft
+
+  publication:
+
+  title: Systematic Testing of Hardware Compilers
+  subtitle: Testing the DWARV C-to-VHDL Compiler
+
+  abstract: >
+    DWARV is a C-to-VHDL compiler which can compile arbitrary C programs for a
+    heterogeneous platform with minimal effort. Depending on the application
+    this will imply faster execution. We give an overview of C-to-VHDL
+    compilers. One important aspect of all software is its reliability, and we
+    aim to assess DWARV’s reliability and the adequacy of its test suite. Based
+    on the identified shortcomings of the test suite, we implement the test
+    result framework Dummy. We explore some of the additional possibilities
+    created by the usage of Dummy, and provide a plan to improve DWARV’s test
+    suite. We conclude with an analysis of the results that show the advantages
+    of the implemented test framework and proposed test plan.
+
+  links:
+    pdf: https://repository.tudelft.nl/islandora/object/uuid:c3a55f25-b8df-43ec-bdf9-ba991d4eb843/datastream/OBJ/download

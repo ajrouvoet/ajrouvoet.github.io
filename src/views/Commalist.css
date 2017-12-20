@@ -1,0 +1,16 @@
+.Commalist {
+    display: inline;
+    list-style: none;
+}
+
+.Commalist li {
+    display: inline;
+}
+
+.Commalist li:after {
+    content: ", ";
+}
+
+.Commalist li:last-child:after {
+    content: "";
+}

@@ -1,5 +1,4 @@
 import classes from './style/reset.css'
-import msc_thesis from './content/publications/msc_thesis.pug'
 
 import React, {Component} from 'react'
 import {render} from 'react-dom'
@@ -10,38 +9,29 @@ import css from './app.css'
 import './style/fonts/families.css'
 import 'font-awesome/css/font-awesome.css'
 
-class Profile extends Component {
+// view components
+import Profile from './views/Profile.jsx'
+import Publication, {Publications} from './views/Publication.jsx'
+
+// content
+import pubs_2013 from './content/publications/2013.yaml'
+import pubs_2016 from './content/publications/2016.yaml'
+import pubs_2017 from './content/publications/2017.yaml'
+
+class PublicationsSection extends Component {
     render() {
         return (
-            <div>
-                <p>
-                    <h3>Professional interests</h3>
-                    <br />
-                    type theory,
-                    proof assistants,
-                    language semantics,
-                    verified compilation,
-                    verification,
-                    programming languages
-                </p>
-                <p>
-                    <h3>Personal interests</h3>
-                    <br />
-                    chess,
-                    bouldering,
-                    music
-                </p>
-                <div className={css.contact}>
-                    <h3>Contact</h3>
-                    <ul>
-                        <li>
-                            <a href="https://github.com/elessarwebb"><span className="fa fa-github"></span></a>
-                        </li>
-                        <li>
-                            <span className="fa fa-linkedin"></span>
-                        </li>
-                    </ul>
-                </div>
+            <div className={css.PublicationsSection}>
+                <h2 className={css.SectionTitle}>Publications</h2>
+
+                <h3 className={css.PubYear}>2017</h3>
+                <Publications pubs={pubs_2017} />
+
+                <h3 className={css.PubYear}>2016</h3>
+                <Publications pubs={pubs_2016} />
+
+                <h3 className={css.PubYear}>2013</h3>
+                <Publications pubs={pubs_2013} />
             </div>
         )
     }
@@ -58,11 +48,12 @@ class App extends Component {
                     <Profile />
 
                     <p>
-                        {"<><"}
+                        {"<><  "}
+                        <a href="https://www.bible.com/bible/116/PSA.136">Ps. 136</a>
                     </p>
                 </div>
                 <div className={css.right}>
-                    Hi!
+                    <PublicationsSection />
                 </div>
             </div>
         )

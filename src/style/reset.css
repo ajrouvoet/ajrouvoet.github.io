@@ -8,6 +8,16 @@ html {
     height: 100%;
 }
 
+ul, ol {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+h1, h2, h3, h4 {
+    margin: 0px;
+}
+
 :global(#root) {
     height: 100%;
     display: flex;
@@ -20,6 +30,7 @@ body {
     font-size: 18pt;
     font-family: 'Open Sans', serif;
     font-weight: light;
+    overflow-y: scroll;
 
     margin: 0px;
     padding: 0px;
