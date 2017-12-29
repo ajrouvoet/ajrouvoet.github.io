@@ -19,7 +19,7 @@ class Author extends Component {
         return (
             <div className={css.Author} style={{display: "inline"}}>
             { author.site
-                ? <a href={author.site}>{author.who}</a>
+                ? <a target="_blank" href={author.site}>{author.who}</a>
                 : <span>{author.who}</span>
             }
             </div>
@@ -90,17 +90,17 @@ export default class Publication extends Component {
                 <ul className={css.Links}>
                     { pub.links && pub.links.pdf
                       && <li>
-                            <a href={pub.links.pdf}><span className="fa fa-file"></span> PDF</a>
+                            <a target="_blank" href={pub.links.pdf}><span className="fa fa-file"></span> PDF</a>
                         </li>
                     }
                     { pub.links && pub.links.code
                       && <li>
-                            <a href={pub.links.code}><span className="fa fa-code"></span> Code</a>
+                            <a target="_blank" href={pub.links.code}><span className="fa fa-code"></span> Code</a>
                         </li>
                     }
                     { pub.links && pub.links.site
                       && <li>
-                            <a href={pub.links.site}><span className="fa fa-link"></span> Site</a>
+                            <a target="_blank" href={pub.links.site}><span className="fa fa-link"></span> Site</a>
                         </li>
                     }
                 </ul>

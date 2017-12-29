@@ -2,11 +2,12 @@ import classes from './style/reset.css'
 
 import React, {Component} from 'react'
 import {render} from 'react-dom'
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
 
 import css from './app.css'
 
 // fonts
-import './style/fonts/families.css'
+import './style/fonts/families-cdn.css'
 import 'font-awesome/css/font-awesome.css'
 
 // view components
@@ -37,25 +38,36 @@ class PublicationsSection extends Component {
     }
 }
 
+function Menu({}) {
+    return (
+        <ol className={css.Menu}>
+            <li><Link to="/blog">Blog</Link></li>
+            <li><Link to="/">Publications</Link></li>
+            <li><Link to="/cv">Curriculum Vitae</Link></li>
+        </ol>
+    )
+}
+
 class App extends Component {
     render() {
         return (
-            <div className={css.columns}>
-                <div className={css.left}>
-                    <h1 className={css.title}>Arjen Rouvoet</h1>
-                    <p>Doctoral candidate at Technical University Delft</p>
+            <Router>
+                <div className={css.columns}>
+                    <div className={css.left}>
+                        <Profile />
 
-                    <Profile />
-
-                    <p>
-                        {"<><  "}
-                        <a href="https://www.bible.com/bible/116/PSA.136">Ps. 136</a>
-                    </p>
+                        <p>
+                            {"<>< "}
+                            <a taret="_blank" href="https://www.bible.com/bible/116/PSA.136">Ps. 136</a>
+                        </p>
+                    </div>
+                    <div className={css.right}>
+                        <Route exact path="/" component={PublicationsSection} />
+                        <Route exact path="/cv" component={() => false} />
+                        <Route exact path="/blog" component={() => false} />
+                    </div>
                 </div>
-                <div className={css.right}>
-                    <PublicationsSection />
-                </div>
-            </div>
+            </Router>
         )
     }
 }

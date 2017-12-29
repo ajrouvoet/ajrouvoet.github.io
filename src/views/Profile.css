@@ -1,10 +1,17 @@
+.title {
+    font-family: 'Roboto', sans-serif;
+}
+
 .Profile h3 {
     margin-bottom: 10px;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 .interests li {
-    font-size: 15pt;
+    font-size: 14px;
+    line-height: 25px;
+    text-transform: uppercase;
+    color: color(white a(75%));
 }
 
 .contact > ul {
@@ -19,4 +26,30 @@
 
 .contact a {
     color: white;
+}
+
+.MailModal {
+    background-color: white;
+    color: black;
+    padding: 15px;
+    border: 1px solid #444;
+}
+
+.MailModal input {
+    width: 100%;
+}
+
+.MailModal:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.MailModalButtons {
+    width: 100%;
+}
+
+.MailModalClose {
+    float: right;
+    margin-top: 10px;
 }

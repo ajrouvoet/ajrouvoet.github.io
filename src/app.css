@@ -4,6 +4,7 @@
     flex: 1;
     display: flex;
     flex-flow: row wrap;
+    overflow-y: scroll;
 }
 
 .column {
@@ -24,8 +25,9 @@
 .right {
     composes: column;
     background-color: white;
-    color: var(--base);
     flex-grow: 2;
+    color: black;
+    padding-top: 0px;
 }
 
 .Section > h2, .Section > h3 {
@@ -50,5 +52,42 @@
 .PubYear {
     composes: SectionTitle;
     background-color: #fefefe;
+    font-family: 'Open Sans';
     font-size: 25pt;
+}
+
+.Menu {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.Menu li {
+    flex: 1;
+    flex-grow: 1;
+    flex-shrink: 1;
+    display: flex;
+
+    transition-property: background-color color;
+    transition-duration: 300ms;
+    transition-timing-function: ease-in-out;
+
+    background-color: color(var(--base) tint(10%));
+    color: white;
+
+    border-right: 1px solid var(--base);
+    border-bottom: 1px solid var(--base);
+
+    height: 40pt;
+    line-height: 40pt;
+    vertical-align: middle;
+    padding: 0;
+}
+
+.Menu li:hover {
+    background-color: color(var(--base) tint(20%));
+}
+
+.Menu li a {
+    flex: 1;
+    padding: 0 30px;
 }
