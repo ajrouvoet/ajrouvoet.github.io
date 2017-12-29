@@ -33,7 +33,7 @@ h1 {
 :global(#overlay) {}
 
 body {
-    background-color: var(--base);
+    background-color: #232839;
     color: #eee;
     font-size: 14pt;
     font-family: 'Roboto', sans-serif;

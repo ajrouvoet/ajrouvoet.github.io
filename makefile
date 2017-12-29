@@ -3,4 +3,4 @@ build/.git:
 	git clone git@github.com:ElessarWebb/ElessarWebb.github.io.git build/
 
 gh-page: build/.git
-	yarn compile
+	yarn run compile
