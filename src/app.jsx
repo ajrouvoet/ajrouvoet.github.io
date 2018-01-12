@@ -1,4 +1,4 @@
-import classes from './style/reset.css'
+import './style/reset.css'
 
 import React, {Component} from 'react'
 import {render} from 'react-dom'
@@ -13,6 +13,7 @@ import 'font-awesome/css/font-awesome.css'
 // view components
 import Profile from './views/Profile.jsx'
 import Publication, {Publications} from './views/Publication.jsx'
+import News from './views/News.jsx'
 
 // content
 import pubs_2013 from './content/publications/2013.yaml'
@@ -22,7 +23,7 @@ import pubs_2017 from './content/publications/2017.yaml'
 class PublicationsSection extends Component {
     render() {
         return (
-            <div className={css.PublicationsSection}>
+            <div className={css.Section}>
                 <h2 className={css.SectionTitle}>Publications</h2>
 
                 <h3 className={css.PubYear}>2017</h3>
@@ -48,6 +49,26 @@ function Menu({}) {
     )
 }
 
+function NewsSection({}) {
+    return (
+        <div className={css.Section}>
+            <h2 className={css.SectionTitle}>
+                Updates
+            </h2>
+            <News />
+        </div>
+    )
+}
+
+function Home({}) {
+    return (
+        <div>
+            <NewsSection />
+            <PublicationsSection />
+        </div>
+    )
+}
+
 class App extends Component {
     render() {
         return (
@@ -62,7 +83,7 @@ class App extends Component {
                         </p>
                     </div>
                     <div className={css.right}>
-                        <Route exact path="/" component={PublicationsSection} />
+                        <Route exact path="/" component={Home} />
                         <Route exact path="/cv" component={() => false} />
                         <Route exact path="/blog" component={() => false} />
                     </div>

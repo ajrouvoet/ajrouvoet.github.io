@@ -20,14 +20,21 @@
     padding-left: 30px;
 
     text-align: right;
+
+    background: transparent;
+    color: #eee;
 }
 
 .right {
     composes: column;
-    background-color: white;
+    border-left: 1px solid color(white a(10%));
     flex-grow: 2;
     color: black;
     padding-top: 0px;
+}
+
+.Section {
+    border-bottom: 1px solid #ddd;
 }
 
 .Section > h2, .Section > h3 {
@@ -36,24 +43,25 @@
 }
 
 .SectionTitle {
+    font-family: 'Roboto', sans-serif;
+    font-weight: lighter;
+    font-size: 25pt;
+    background-color: white;
+
     width: 100%;
-    background-color: #eee;
 
     padding-top: 10px;
     padding-bottom: 10px;
 
-    border: 1px solid #ddd;
-}
-
-.PublicationsSection {
-    composes: Section;
+    border-style: solid;
+    border-color: #ddd;
+    border-width: 0px 0px 1px 0px;
 }
 
 .PubYear {
     composes: SectionTitle;
     background-color: #fefefe;
-    font-family: 'Open Sans';
-    font-size: 25pt;
+    font-size: 20pt;
 }
 
 .Menu {

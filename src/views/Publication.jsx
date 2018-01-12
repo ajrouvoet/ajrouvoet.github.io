@@ -36,19 +36,19 @@ class Abstract extends Component {
         super(props)
 
         this.state = {
-            fold: true,
+            fold: false,
             hover: false,
         }
 
         this.toggle = () => {
-            this.setState({fold: !this.state.fold})
+            // this.setState({fold: !this.state.fold})
         }
 
         this.onHover = () => {
             this.setState({hover: true})
         }
         this.onHoverOut = () => {
-            this.setState({hover: false})
+            // this.setState({hover: false})
         }
     }
 

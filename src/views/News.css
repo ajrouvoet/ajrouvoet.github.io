@@ -1,0 +1,39 @@
+.News {
+    padding: 30px;
+    color: white;
+    background: transparent;
+}
+
+.NewsItem {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 5px;
+    padding: 5px 0px;
+}
+
+.NewsItemBorder:before {
+    content: "{";
+    font-family: 'Libre Baskerville';
+    font-weight: bold;
+    width: 10px;
+    height: 40px;
+    font-size: 40px;
+    line-height: 40px;
+}
+
+.NewsItemBody {
+    flex: 1;
+    padding-left: 20px;
+}
+
+.NewsItem h1 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18pt;
+    font-weight: bold;
+}
+
+.NewsDate {
+    margin: 0px;
+    font-style: italic;
+}

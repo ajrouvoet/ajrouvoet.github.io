@@ -33,8 +33,7 @@ h1 {
 :global(#overlay) {}
 
 body {
-    background-color: #232839;
-    color: #eee;
+    background: linear-gradient(to bottom right, #234c4b, #232839 75%);
     font-size: 14pt;
     font-family: 'Roboto', sans-serif;
     font-style: normal;

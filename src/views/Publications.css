@@ -38,6 +38,11 @@
 
     padding: 30px;
     padding-bottom: 0px;
+
+    background-color: white;
+}
+
+.Publication:last-child {
 }
 
 .Publication h3 {
