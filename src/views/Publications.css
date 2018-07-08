@@ -14,8 +14,8 @@
 
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 14px;
-    line-height: 22px;
+    font-size: 11pt;
+    line-height: 17pt;
 }
 
 .Abstract.fold {
@@ -46,14 +46,14 @@
 }
 
 .Publication h3 {
-    font-size: 22px;
-    line-height: 40px;
+    font-size: 18pt;
+    line-height: 30pt;
     color: var(--hl);
 }
 
 .Publication .Links {
     padding: 10px;
-    font-size: 17px;
+    font-size: 12pt;
 }
 
 .Publication .Links li {

@@ -2,6 +2,7 @@
 
 * {
     box-sizing: border-box;
+    text-size-adjust: none;
 }
 
 html {
@@ -16,7 +17,7 @@ ul, ol {
 
 h1, h2, h3, h4 {
     margin: 0px;
-    font-family: 'Libre Baskerville';
+    font-family: 'Libre Baskerville', serif;
 }
 
 h1 {
@@ -33,7 +34,7 @@ h1 {
 :global(#overlay) {}
 
 body {
-    background: linear-gradient(to bottom right, #234c4b, #232839 75%);
+    background: linear-gradient(to bottom right, darkcyan, #232839 75%);
     font-size: 14pt;
     font-family: 'Roboto', sans-serif;
     font-style: normal;

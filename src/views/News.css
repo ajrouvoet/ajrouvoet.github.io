@@ -1,7 +1,7 @@
 .News {
     padding: 30px;
     color: white;
-    background: transparent;
+    background: color(white a(5%));
 }
 
 .NewsItem {
@@ -10,16 +10,11 @@
     flex-direction: row;
     margin-bottom: 5px;
     padding: 5px 0px;
+    color: color(white a(60%));
 }
 
-.NewsItemBorder:before {
-    content: "{";
-    font-family: 'Libre Baskerville';
-    font-weight: bold;
-    width: 10px;
-    height: 40px;
-    font-size: 40px;
-    line-height: 40px;
+.NewsItem:first-child {
+    color: white;
 }
 
 .NewsItemBody {

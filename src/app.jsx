@@ -19,6 +19,7 @@ import News from './views/News.jsx'
 import pubs_2013 from './content/publications/2013.yaml'
 import pubs_2016 from './content/publications/2016.yaml'
 import pubs_2017 from './content/publications/2017.yaml'
+import news from './content/news.yaml'
 
 class PublicationsSection extends Component {
     render() {
@@ -55,7 +56,7 @@ function NewsSection({}) {
             <h2 className={css.SectionTitle}>
                 Updates
             </h2>
-            <News />
+            <News news={news} />
         </div>
     )
 }

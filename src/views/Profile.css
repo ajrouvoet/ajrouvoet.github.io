@@ -8,8 +8,8 @@
 }
 
 .interests li {
-    font-size: 14px;
-    line-height: 25px;
+    font-size: 11pt;
+    line-height: 18pt;
     text-transform: uppercase;
     color: color(white a(75%));
 }
