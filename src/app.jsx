@@ -80,7 +80,7 @@ class App extends Component {
 
                         <p>
                             {"<>< "}
-                            <a taret="_blank" href="https://www.bible.com/bible/116/PSA.136">Ps. 136</a>
+                            <a taret="_blank" href="https://www.bible.com/bible/116/PSA.139">Ps. 139</a>
                         </p>
                     </div>
                     <div className={css.right}>
