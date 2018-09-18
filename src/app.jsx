@@ -101,7 +101,6 @@ class App extends Component {
                         </p>
                     </div>
                     <div className={css.right}>
-                        <Menu />
                         <Route exact path="/" component={Home} />
                         <Route exact path="/code" component={CodePage} />
                     </div>

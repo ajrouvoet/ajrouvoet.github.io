@@ -44,7 +44,7 @@
 
 .SectionTitle {
     font-family: 'Roboto', sans-serif;
-    font-weight: 400;
+    font-weight: bold;
     font-size: 20pt;
     background-color: white;
 
@@ -62,6 +62,15 @@
     composes: SectionTitle;
     background-color: #fefefe;
     font-size: 20pt;
+    font-weight: normal;
+}
+
+.PubYear:before {
+    margin-right: 10px;
+    content: "▷";
+    font-size: 10pt;
+    line-height: 20pt;
+    vertical-align: middle;
 }
 
 .Menu {
