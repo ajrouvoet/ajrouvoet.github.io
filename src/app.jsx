@@ -19,33 +19,50 @@ import News from './views/News.jsx'
 import pubs_2013 from './content/publications/2013.yaml'
 import pubs_2016 from './content/publications/2016.yaml'
 import pubs_2017 from './content/publications/2017.yaml'
+import pubs_2018 from './content/publications/2018.yaml'
+
 import news from './content/news.yaml'
 
-class PublicationsSection extends Component {
-    render() {
-        return (
+function CodePage() {
+    return (
+        <div>
             <div className={css.Section}>
-                <h2 className={css.SectionTitle}>Publications</h2>
+                <h2 className={css.SectionTitle}>Public Repositories</h2>
 
-                <h3 className={css.PubYear}>2017</h3>
-                <Publications pubs={pubs_2017} />
-
-                <h3 className={css.PubYear}>2016</h3>
-                <Publications pubs={pubs_2016} />
-
-                <h3 className={css.PubYear}>2013</h3>
-                <Publications pubs={pubs_2013} />
+                <h2 className={css.SectionTitle}>Agda Formalizations</h2>
+                <h2 className={css.SectionTitle}>Other Projects</h2>
             </div>
-        )
-    }
+        </div>
+    )
+}
+
+function PublicationsSection() {
+    return (
+        <div className={css.Section}>
+            <h2 className={css.SectionTitle}>Publications</h2>
+
+            <h3 className={css.PubYear}>2018</h3>
+            <Publications pubs={pubs_2018} />
+
+            <h3 className={css.PubYear}>2017</h3>
+            <Publications pubs={pubs_2017} />
+
+            <h3 className={css.PubYear}>2016</h3>
+            <Publications pubs={pubs_2016} />
+
+            <h3 className={css.PubYear}>2013</h3>
+            <Publications pubs={pubs_2013} />
+        </div>
+    )
 }
 
 function Menu({}) {
+    // <li><Link to="/blog">Blog</Link></li>
+    // <li><Link to="/cv">Curriculum Vitae</Link></li>
     return (
         <ol className={css.Menu}>
-            <li><Link to="/blog">Blog</Link></li>
-            <li><Link to="/">Publications</Link></li>
-            <li><Link to="/cv">Curriculum Vitae</Link></li>
+            <li><Link to="/">News & Publications</Link></li>
+            <li><Link to="/code">Code</Link></li>
         </ol>
     )
 }
@@ -84,9 +101,9 @@ class App extends Component {
                         </p>
                     </div>
                     <div className={css.right}>
+                        <Menu />
                         <Route exact path="/" component={Home} />
-                        <Route exact path="/cv" component={() => false} />
-                        <Route exact path="/blog" component={() => false} />
+                        <Route exact path="/code" component={CodePage} />
                     </div>
                 </div>
             </Router>

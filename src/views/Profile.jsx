@@ -71,7 +71,7 @@ export default class Profile extends Component {
                     <h3>Contact me</h3>
                     <ul>
                         <li>
-                            <a href="https://github.com/elessarwebb">
+                            <a href="https://github.com/ajrouvoet">
                                 <span className="fa fa-github"></span>
                             </a>
                         </li>
