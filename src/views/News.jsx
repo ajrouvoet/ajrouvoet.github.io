@@ -7,7 +7,7 @@ export default function News({news}) {
     return (
         <ol className={css.News}>
           {
-              _.map(news, ({title, date}, key) => (
+              _.map(_.take(news, 3), ({title, date}, key) => (
                 <li key={key} className={css.NewsItem}>
                     <div className={css.NewsItemBorder}></div>
                     <div className={css.NewsItemBody}>

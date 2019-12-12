@@ -20,6 +20,7 @@ import pubs_2013 from './content/publications/2013.yaml'
 import pubs_2016 from './content/publications/2016.yaml'
 import pubs_2017 from './content/publications/2017.yaml'
 import pubs_2018 from './content/publications/2018.yaml'
+import pubs_2019 from './content/publications/2019.yaml'
 
 import news from './content/news.yaml'
 
@@ -40,6 +41,9 @@ function PublicationsSection() {
     return (
         <div className={css.Section}>
             <h2 className={css.SectionTitle}>Publications</h2>
+
+            <h3 className={css.PubYear}>2019</h3>
+            <Publications pubs={pubs_2019} />
 
             <h3 className={css.PubYear}>2018</h3>
             <Publications pubs={pubs_2018} />
