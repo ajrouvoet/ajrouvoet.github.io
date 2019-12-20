@@ -1,0 +1,39 @@
+- authors:
+
+  - who: Arjen Rouvoet
+    affiliation: Delft University of Technology
+  - who: Casper Bach Poulsen
+    affiliation: Delft University of Technology
+    site: http://casperbp.net/
+  - who: Robbert Krebbers
+    affiliation: Delft University of Technology
+    site: https://robbertkrebbers.nl/
+  - who: Eelco Visser
+    affiliation: Delft University of Technology
+    site: http://eelcovisser.org/
+
+  publication:
+
+  title: Intrinsically-Typed Definitional Interpreters for Linear, Session-Typed Languages
+
+  abstract: >
+    An intrinsically-typed definitional interpreter is a concise
+    specification of dynamic semantics, that is executable and type safe
+    by construction.  Unfortunately, scaling intrinsically-typed
+    definitional interpreters to more complicated object languages often
+    results in definitions that are cluttered with manual proof work.  For
+    linearly-typed languages (including session-typed languages) one has
+    to prove that the interpreter, as well as all the operations on
+    semantic components, treat values linearly. We present new methods
+    and tools that make it possible to implement intrinsically-typed
+    definitional interpreters for linearly-typed languages in a way that
+    hides the majority of the manual proof work. Inspired by separation
+    logic, we develop reusable and composable abstractions for programming
+    with linear operations using dependent types. Using these
+    abstractions, we define interpreters for linear lambda calculi with
+    strong references, concurrency, and session-typed communication in
+    Agda.
+
+  links:
+    pdf: https://eelcovisser.org/publications/2020/RouvoetPKV20-preprint.pdf
+    code: https://github.com/metaborg/linear.agda

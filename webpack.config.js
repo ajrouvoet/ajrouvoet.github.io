@@ -74,7 +74,7 @@ module.exports = {
             },
             // fonts and svg
             {
-                test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/,
+                test: /\.woff2?$|\.ttf$|\.eot$|\.svg$|\.pdf$/,
                 use: [{
                     loader: "file-loader"
                 }]
