@@ -71,6 +71,22 @@ class Abstract extends Component {
     }
 }
 
+function Link(props) {
+  let {href, type} = props
+  
+  let icon
+  if (type === 'pdf') {
+    icon = <span><span className="fa fa-file"></span> PDF</span>
+  } else if (type === 'code') {
+    icon = <span><span className="fa fa-code"></span> Code</span>
+  } else {
+    icon = <span><span className="fa fa-link"></span> {type}</span>
+  }
+
+
+  return (<a target="_blank" href={href}>{icon}</a>)
+}
+
 export default class Publication extends Component {
     static propTypes = {
         pub: PropTypes.object.isRequired
@@ -88,21 +104,7 @@ export default class Publication extends Component {
                 </Commalist>
                 <Abstract text={pub.abstract} />
                 <ul className={css.Links}>
-                    { pub.links && pub.links.pdf
-                      && <li>
-                            <a target="_blank" href={pub.links.pdf}><span className="fa fa-file"></span> PDF</a>
-                        </li>
-                    }
-                    { pub.links && pub.links.code
-                      && <li>
-                            <a target="_blank" href={pub.links.code}><span className="fa fa-code"></span> Code</a>
-                        </li>
-                    }
-                    { pub.links && pub.links.site
-                      && <li>
-                            <a target="_blank" href={pub.links.site}><span className="fa fa-link"></span> Site</a>
-                        </li>
-                    }
+                  {_.map(pub.links, (li, key) => <li><Link type={key} href={li} /></li> ) }
                 </ul>
             </li>
         )
