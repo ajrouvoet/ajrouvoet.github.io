@@ -329,10 +329,16 @@ would for the rest of our artifact. This way, we maximize the reproducibility
 and portability of the code. And, equally important: we minimize the pain of
 getting it to work.
 
-## Acknowledgments
+## Acknowledgments (and Apologies)
 
-Thanks Neil Mitchell for building and maintaining Shake, and for
-answering my questions on GitHub.
+Thanks to Neil Mitchell for building and maintaining Shake, and for
+kindly answering my questions on the Github issue tracker.
+
+Apologies to my colleague [Gabriel](https://gkonat.github.io/), who recently
+build a competitive product called [PIE](https://github.com/metaborg/pie).  PIE
+has better support for dynamic and transitive dependencies, and does change
+driven incremental builds, which are really cool features. However, unlike Shake
+it is not an _embedded_ DSL, which is what I needed for this project.
 
 ## References
 

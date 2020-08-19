@@ -2,7 +2,7 @@ import './style/reset.css'
 
 import React, {Component} from 'react'
 import {render} from 'react-dom'
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
+import {HashRouter as Router, Route, Link} from 'react-router-dom'
 
 import css from './app.css'
 

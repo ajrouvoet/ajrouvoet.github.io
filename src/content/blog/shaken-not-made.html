@@ -203,8 +203,9 @@ class B extends A {...}
 <p>That is: we use a given resolver to pin the version of our dependencies. We then instruct stack to build our script in an environment that includes the necessary Haskell packages. This creates a <code>./runner</code> executable.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>We engineered some glue code for a software artifact using Haskell and Shake, replacing Bash and Make. We took good care of our dependencies, just like we would for the rest of our artifact. This way, we maximize the reproducibility and portability of the code. And, equally important: we minimize the pain of getting it to work.</p>
-<h2 id="acknowledgments">Acknowledgments</h2>
-<p>Thanks Neil Mitchell for building and maintaining Shake, and for answering my questions on GitHub.</p>
+<h2 id="acknowledgments-and-apologies">Acknowledgments (and Apologies)</h2>
+<p>Thanks to Neil Mitchell for building and maintaining Shake, and for kindly answering my questions on the Github issue tracker.</p>
+<p>Apologies to my colleague <a href="https://gkonat.github.io/">Gabriel</a>, who recently build a competitive product called <a href="https://github.com/metaborg/pie">PIE</a>. PIE has better support for dynamic and transitive dependencies, and does change driven incremental builds, which are really cool features. However, unlike Shake it is not an <em>embedded</em> DSL, which is what I needed for this project.</p>
 <h2 id="references">References</h2>
 <ul>
 <li><a href="https://shakebuild.com">Shake documentation</a></li>
