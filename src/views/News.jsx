@@ -11,7 +11,7 @@ export default function News({news}) {
                 <li key={key} className={css.NewsItem}>
                     <div className={css.NewsItemBorder}></div>
                     <div className={css.NewsItemBody}>
-                        <h1>{title}</h1>
+                        <h1 dangerouslySetInnerHTML={{__html: title}} />
                         <p className={css.NewsDate}>{date}</p>
                     </div>
                 </li>

@@ -1,0 +1,44 @@
+.Blog {
+  text-align: justify;
+  text-justify: inter-word;
+  background-color: white;
+  line-height: 1.5;
+}
+
+.BlogHeader {
+  padding: 30px;
+  color: white;
+  background: color(white a(5%));
+}
+
+.BlogHeader li::before {
+  content: '> '
+}
+
+.BlogHeader li a {
+  margin-left: 10px;
+}
+
+.Wrapper {
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.Blog h1 {
+  font-size: 25pt;
+}
+
+.Blog h2 {
+  font-size: 16pt;
+}
+
+.Blog ol {
+  list-style-type: decimal;
+  margin-left: 30px;
+  line-height: 1.5;
+}
+
+.Blog ul {
+  list-style-type: square;
+  margin-left: 30px;
+}

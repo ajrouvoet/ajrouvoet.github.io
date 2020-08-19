@@ -9,6 +9,7 @@
     "compile": "./node_modules/.bin/webpack -p"
   },
   "devDependencies": {
+    "html-loader": "^1.2.1",
     "webpack": "^3.10.0"
   },
   "dependencies": {
@@ -26,7 +27,6 @@
     "html-webpack-plugin": "^2.30.1",
     "json-loader": "^0.5.7",
     "lodash": "^4.17.4",
-    "node-sass": "^4.7.2",
     "postcss-color-function": "^4.0.1",
     "postcss-css-variables": "^0.8.0",
     "postcss-import": "^11.0.0",
@@ -38,7 +38,6 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
-    "sass-loader": "^6.0.6",
     "style-loader": "^0.19.1",
     "sugarss": "^1.0.1",
     "webpack-dev-server": "^2.9.7",

@@ -1,0 +1,213 @@
+<h1 id="shaken-not-made"><a href="#shaken">Shaken Not Made</a></h1>
+<h2 id="better-glue-code-using-haskell-and-shake">Better Glue Code using Haskell and Shake</h2>
+<p>Arjen Rouvoet – August 19 2020</p>
+<hr />
+<p>Recently, I prepared an <a href="https://github.com/metaborgcube/java.mstx">artifact</a> for a conference. This artifact consisted of some software packages and a test suite, which was animated using a makefile and a bash script. As is often the case, this bit of shell script started out modest, but over time grew out into a significant bit of software. Not huge, but big enough to be considered more than glue code. This soon turns into a maintenance burden (if not nightmare), exemplified best by bugs caused by different versions of shell utilities between linuxes and macs.</p>
+<p>There are various ways to dev-op your way out of this. For example, using a <a href="https://nixos.org/">nix</a> development shell. In this blog post I will present an approach using Haskell and <a href="https://shakebuild.com/">Shake</a> instead of Bash and Make. This way we get all the benefits of a strongly typed language with an ecosystem of mature packages.</p>
+<p>First, I will summarize the task we have to automate. Of course, these techniques are applicable to all kinds of tasks! Then I will present the Haskell script that does the job. At the end of this blog post you should have a good idea of how one automates a bunch of tasks using Shake, and how this compares to Make and Shell scripting. This post is not for learning Haskell.</p>
+<h2 id="the-task-to-automate">The Task to Automate</h2>
+<p>We want to automate the task of running a test suite. The tests consist of a set of java programs, together with an expectation for the outcome of type checking these programs using two different type checkers: Javac and Statix. To keep things neat, we describe the whole test in a single file, formatted like this:</p>
+<pre><code>STATIX fail some.*regex on the output
+JAVAC  fail some.*regex on the output
+
+[p/A.java]
+package p;
+class A {...}
+
+[p/B.java]
+package p;
+class B extends A {...}
+
+[...etc]</code></pre>
+<p>To execute this test, we need to:</p>
+<ol type="1">
+<li>Parse this format</li>
+<li>Create a build directory</li>
+<li>Write the java files to that directory</li>
+<li>Execute <code>javac</code> on the set of java files.</li>
+<li>Check and record the output of <code>javac</code>.</li>
+<li>Execute <code>java2aterm</code> that creates <code>.aterm</code> files for every <code>.java</code> file.</li>
+<li>Execute <code>statix</code> on the set of <code>.aterm</code> files.</li>
+<li>Check and record the output of <code>statix</code>.</li>
+<li>Check that both executions succeeded, and record the test outcome.</li>
+</ol>
+<p>The bash script that we used previously that did most of the work (but did not support test expectations) was ~150 lines of code. It used <code>awk</code> to parse the test format, and—as is the nature of shell scripting—a lot of other kinds of text manipulation to accomplish its task. As a result, it was hard to maintain, hard to stabilize across users, and not very reliable. When anything goes wrong, running <code>make clean</code> and starting over was the recommended way of proceeding.</p>
+<p>A complication is that the <code>java2aterm</code> parser is very slow, so we want to reuse the aterm on subsequent test runs <em>if and only if</em> the java files did not change—i.e., we need an <em>incremental</em> test runner. Usually one might use <code>make</code> for this, but the targets are <em>dynamic</em>—i.e., one needs to first parse the test file to determine which java/aterm files to make. Doing this with make requires staging, yielding a complicated setup.</p>
+<p>When we also wanted to add test expectations, to avoid false positives, we decided it would be better to replace the runner entirely with something more reliable.</p>
+<h2 id="using-haskell-and-shake">Using Haskell and Shake</h2>
+<p>How does one make a script more robust, portable, and maintainable? My unbiased view on this is simple: you implement it in a language with a strong type system and a mature package ecosystem. Enter Haskell. How do we get reliable, incremental test runs? We use a scriptable build system. Enter Shake.</p>
+<p>Shake is like Make, but as an <em>embedded domain specific language</em> (EDSL) in Haskell. The main benefit of using a Haskell EDSL is that you can leverage arbitrary Haskell code (and libraries) to do complicated processing in a typed manner. For example, we can use the Parsec parser combinator library to parse the above test format. This may initially come across as over engineering. But the result is a single Haskell script of a mere ~180 lines of Haskell. The 30 line increase in size is due to having more features (supporting test expectations), <em>not</em> due to overhead of the language!</p>
+<p>To accomplish this, we set up a Haskell script as follows (if you want to hack along, then peek at the Stack setup at the end of this post):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>(<span class="op">...</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Development.Shake</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Development.Shake.Command</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Development.Shake.FilePath</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a><span class="kw">import</span> <span class="dt">Development.Shake.Util</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Expect</span> <span class="ot">=</span> <span class="dt">ExpectOK</span> <span class="op">|</span> <span class="dt">ExpectFail</span> <span class="dt">String</span> <span class="kw">deriving</span> <span class="dt">Show</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Test</span> <span class="ot">=</span> <span class="dt">Test</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>  {<span class="ot"> path   ::</span> <span class="dt">FilePath</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a>  ,<span class="ot"> files  ::</span> [(<span class="dt">String</span>, <span class="dt">String</span>)] <span class="co">-- filename , contents</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>  ,<span class="ot"> javac  ::</span> <span class="dt">Expect</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>  ,<span class="ot"> statix ::</span> <span class="dt">Expect</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a>  } <span class="kw">deriving</span> (<span class="dt">Show</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a><span class="ot">main ::</span> <span class="dt">IO</span> ()</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a>main <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true"></a>  args <span class="ot">&lt;-</span> getArgs</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true"></a>  <span class="kw">case</span> args <span class="kw">of</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true"></a>    []      <span class="ot">-&gt;</span> die <span class="st">&quot;Missing argument: runner &lt;input.test&gt;&quot;</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true"></a>    test<span class="op">:</span>_  <span class="ot">-&gt;</span> runTest test</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true"></a>    </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true"></a><span class="ot">runTest ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true"></a>runTest testPath <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true"></a>    <span class="co">-- (1) parse test format</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true"></a>    txt        <span class="ot">&lt;-</span> <span class="fu">pack</span> <span class="op">&lt;$&gt;</span> <span class="fu">readFile</span> </span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true"></a>    <span class="kw">let</span> result <span class="ot">=</span>  parse (parseTest testPath) testPath txt</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true"></a>    test       <span class="ot">&lt;-</span> <span class="kw">case</span> result <span class="kw">of</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true"></a>      <span class="dt">Left</span> err   <span class="ot">-&gt;</span> die <span class="op">$</span> <span class="st">&quot;Could not parse test: &quot;</span> <span class="op">&lt;&gt;</span> <span class="fu">show</span> err</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true"></a>      <span class="dt">Right</span> test <span class="ot">-&gt;</span> <span class="fu">return</span> test</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true"></a>    <span class="co">-- (2) create java files in build directory</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true"></a>    forM_ (files test) <span class="op">$</span> \(fname, content) <span class="ot">-&gt;</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true"></a>      writeFileChanged (buildDir <span class="op">&lt;/&gt;</span> fname) content</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true"></a>    </span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true"></a>    <span class="co">-- Let Shake do the remainder of the incremental build</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true"></a>    shake shakeOptions </span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true"></a>      { shakeFiles  <span class="ot">=</span> buildDir</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true"></a>      , shakeChange <span class="ot">=</span> <span class="dt">ChangeDigest</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true"></a>      } </span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true"></a>      rules</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true"></a></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true"></a><span class="ot">buildDir ::</span> <span class="dt">String</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true"></a>buildDir <span class="ot">=</span> <span class="st">&quot;./_build&quot;</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true"></a></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true"></a><span class="ot">rules ::</span> <span class="dt">Test</span> <span class="ot">-&gt;</span> <span class="dt">Rules</span> ()</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true"></a>rules <span class="ot">=</span> _ <span class="co">-- TODO</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true"></a><span class="co">-- Parser details omitted, but can be implemented using Parsec!</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true"></a><span class="co">-- No more awk/grep/sed on my watch.</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true"></a><span class="ot">parseTest ::</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> <span class="dt">Parsec</span> <span class="dt">Text</span> u <span class="dt">Test</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true"></a>parseTest path <span class="ot">=</span> _</span></code></pre></div>
+<p>The runner has a simple command-line interface that takes a single test as input. We then parse that test and create the files in a build directory. Hereby we make use of the Shake utility <code>writeFileChanged</code> that only writes the file if the content is modified. This ensures that the build is incremental.</p>
+<p>Then we invoke Shake’s main <code>shake</code> to do the heavy lifting. The options we pass sets the directory where shake stores its state to the build directory, and enables change detection based on digests rather than by modification times, which is the default (and could also be a fine choice, since we used <code>writeFileChanged</code> anyway).</p>
+<p>We now focus on the <code>rules :: Rules ()</code> that automate the incremental build, and explain the steps inline:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="ot">rules ::</span> <span class="dt">Rules</span> ()</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>rules <span class="dt">Test</span>{ path, files, javac, statix } <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>  <span class="co">-- We compute the location of the java files using a list comprehension:</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>  <span class="kw">let</span> javaFiles  <span class="ot">=</span> [ buildDir <span class="op">&lt;/&gt;</span> j <span class="op">|</span> (j, _) <span class="ot">&lt;-</span> files ]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>  <span class="co">-- We then similarly compute the set of aterms from that using the utility `(-&lt;.&gt;)`,</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>  <span class="co">-- which replaces file extensions:</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>  <span class="kw">let</span> aterms     <span class="ot">=</span> [ j <span class="op">-&lt;.&gt;</span> <span class="st">&quot;aterm&quot;</span> <span class="op">|</span> j <span class="ot">&lt;-</span> javafiles ]</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true"></a>  </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true"></a>  <span class="co">-- The result of the test will be stored on disk here:</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true"></a>  <span class="kw">let</span> result     <span class="ot">=</span> buildDir <span class="op">&lt;/&gt;</span> <span class="st">&quot;result&quot;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true"></a>    </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true"></a>  <span class="co">-- Now we inform shake that we want to build the result:</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true"></a>  <span class="co">-- Even before we tell it how it can build this target.</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true"></a>  want [ result ]</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true"></a>  </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true"></a>  (<span class="op">...</span>more to follow)</span></code></pre></div>
+<p>Having informed Shake of what we <em>want</em>, we now have to inform it about how to get it. This is done with make-like rules, as follows:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>  <span class="co">-- A build rule has a similar structure as a make rule, with the target on the</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>  <span class="co">-- left of the (%&gt;) combinator. The `out` variable contains the path to write to.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>  result <span class="op">%&gt;</span> \out <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>    <span class="co">-- We always run this rule, so that the test result is always outputted.</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>    <span class="co">-- This is fine, because it basically just reads back the results of other rules.</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>    alwaysRerun</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a>    <span class="co">-- We read the output of Javac and Statix.</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a>    <span class="co">-- The use of readFile&#39; informs Shake that these files are dependencies.</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true"></a>    stxRex <span class="ot">&lt;-</span> readFile&#39; <span class="op">$</span> buildDir <span class="op">&lt;/&gt;</span> <span class="st">&quot;stx.result&quot;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true"></a>    stxRex <span class="ot">&lt;-</span> readFile&#39; <span class="op">$</span> buildDir <span class="op">&lt;/&gt;</span> <span class="st">&quot;java.result&quot;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true"></a>    <span class="co">-- Compute the combined result</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true"></a>    <span class="kw">let</span> res <span class="ot">=</span> resultString <span class="op">$</span> stxRes <span class="op">==</span> <span class="st">&quot;SUCCESS&quot;</span> <span class="op">&amp;&amp;</span> javaRes <span class="op">==</span> <span class="st">&quot;SUCCESS&quot;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true"></a>    writeFileChanged out res</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true"></a>    <span class="co">-- Output the test result</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true"></a>    liftIO <span class="op">$</span> <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;[&quot;</span> <span class="op">&lt;&gt;</span> res <span class="op">&lt;&gt;</span> <span class="st">&quot;] &quot;</span> <span class="op">&lt;&gt;</span> testPath</span></code></pre></div>
+<p>This task thus describes how to build <code>result</code>, by reading some outputs from dependencies and combining them into a new output. Shake has <a href="https://hackage.haskell.org/package/shake-0.19.1">various functions</a> for adding dependencies and invoking shell functions.</p>
+<p>The above task depends on the files <code>{java,stx}.result</code>, which are produced by <code>javac</code> and <code>statix</code> respectively:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>  <span class="co">-- From executing javac we will gather the output (stderr/out) and the result,</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>  <span class="co">-- i.e., whether it has met our expectation of the run.</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>  <span class="co">-- Such rules with multiple outputs use the combinator `(&amp;%&gt;)`:</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>  [ buildDir <span class="op">&lt;/&gt;</span> <span class="st">&quot;java.out&quot;</span> , buildDir <span class="op">&lt;/&gt;</span> <span class="st">&quot;java.result&quot;</span> ] <span class="op">&amp;%&gt;</span> \[out, res] <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>    <span class="co">-- We depend on the test and the set of javafiles:</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>    need [ testPath ]</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a>    need javaFiles</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a>    <span class="co">-- We can then invoke javac using the Shake primitive `cmd`,</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true"></a>    <span class="co">-- which is smart about combining/escaping arguments of various types,</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true"></a>    <span class="co">-- so that we can simply write the following.</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true"></a>    <span class="co">-- We capture the stdout and stderr in a single string `sout` on the LHS:</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true"></a>    (<span class="dt">Exit</span> code, <span class="dt">Stdouterr</span> sout) <span class="ot">&lt;-</span> withVerbosity <span class="dt">Verbose</span> <span class="op">$</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true"></a>                                     cmd <span class="st">&quot;javac -d&quot;</span> buildDir javaFiles</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true"></a>                                     </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true"></a>    <span class="co">-- We write the sout to a target file for debugging purposes.</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true"></a>    writeFileChanged out <span class="op">$</span> sout</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true"></a>    <span class="co">-- We then check the exit code and the output against our test expectation.</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true"></a>    <span class="co">-- And we write the result:</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true"></a>    <span class="kw">let</span> result <span class="ot">=</span> resultString (checkJavaExpectation javac code sout)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true"></a>    writeFileChanged res result</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true"></a>    <span class="co">-- Finally we output the result we computed for commandline user:</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true"></a>    liftIO <span class="op">$</span> <span class="fu">putStrLn</span> <span class="op">$</span> <span class="st">&quot;[JAVA:&quot;</span> <span class="op">&lt;&gt;</span> result <span class="op">&lt;&gt;</span> <span class="st">&quot;] &quot;</span> <span class="op">&lt;&gt;</span> testPath</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true"></a>   </span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true"></a>  <span class="co">-- The rule for Statix takes the same shape:</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true"></a>  [ buildDir <span class="op">&lt;/&gt;</span> <span class="st">&quot;stx.out&quot;</span> , buildDir <span class="op">&lt;/&gt;</span> <span class="st">&quot;stx.result&quot;</span> ] <span class="op">&amp;%&gt;</span> \[out, res] <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true"></a>    <span class="co">-- We depend on the aterms here, which are incrementally produced by a</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true"></a>    <span class="co">-- separate rule below:</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true"></a>    need [ testPath ]</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true"></a>    need aterms</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true"></a>    </span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true"></a>    (<span class="op">...</span>)</span></code></pre></div>
+<p>The last task is similar to the <code>javac</code> one, except that it depends on some auxiliary files (the aterms). These can be produced using a globbing rule, similar to a make rule for <code>%.aterm</code>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>  <span class="co">-- Rules can glob, just like in make:</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>  <span class="st">&quot;//*.aterm&quot;</span> <span class="op">%&gt;</span> \out <span class="ot">-&gt;</span> <span class="kw">do</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>    <span class="kw">let</span> java <span class="ot">=</span> out <span class="op">-&lt;.&gt;</span> <span class="st">&quot;java&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>    need [ java ]</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>    <span class="co">-- We again use a command to produce the target.</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>    <span class="co">-- This time we are not interested in the exitcodes/output, so we use `cmd_`</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>    cmd_ <span class="st">&quot;java2aterm&quot;</span> java out</span></code></pre></div>
+<p>The example code used some auxiliary functions, which are just normal Haskell functions:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="co">-- Auxiliary functions</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="co">----------------------</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a><span class="ot">resultString ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> <span class="dt">String</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>resultString ok <span class="ot">=</span> <span class="kw">if</span> ok <span class="kw">then</span> <span class="st">&quot;SUCCESS&quot;</span> <span class="kw">else</span> <span class="st">&quot;FAILURE&quot;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a><span class="co">-- Yes, you can use haskell libraries to implement these functions!</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a><span class="ot">checkJavaExpectation ::</span> <span class="dt">Expect</span> <span class="ot">-&gt;</span> <span class="dt">ExitCode</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>checkJavaExpectation <span class="ot">=</span> (<span class="op">...</span>)</span></code></pre></div>
+<p>This is quite similar to what you would try to do with <code>make</code> and shell scripts. But we were much less prone to making mistakes, because many are ruled out by the types. We also were able to make use of more powerful libraries to do the processing we needed to do. This integrates easily in the build system because the rules are written embedded in Haskell. Finally, this script is (potentially) much more portable, because we can easily pin down the versions of libraries and utilities that we depend on using Stack.</p>
+<h2 id="reproducible-and-portable-builds-using-stack">Reproducible and Portable Builds using Stack</h2>
+<p>To ensure that the build can be reproduced over time, and over different platforms, we have to pin down our Haskell dependencies (e.g., GHC, Shake, etc). Usually, people set up a project for this, using Cabal or Stack configurations. For a single script this is inconvenient, but we can get what we want anyway using Stack’s <code>ghc</code> command:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="ex">stack</span> ghc <span class="kw">\</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>  <span class="ex">--resolver</span> lts-16.10 <span class="kw">\</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a>  <span class="ex">--package</span> shake <span class="kw">\</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a>  <span class="ex">--package</span> regex-base <span class="kw">\</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a>  <span class="ex">--package</span> regex-tdfa <span class="kw">\</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true"></a>  <span class="ex">--package</span> (...)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true"></a>  <span class="ex">./runner.hs</span></span></code></pre></div>
+<p>That is: we use a given resolver to pin the version of our dependencies. We then instruct stack to build our script in an environment that includes the necessary Haskell packages. This creates a <code>./runner</code> executable.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>We engineered some glue code for a software artifact using Haskell and Shake, replacing Bash and Make. We took good care of our dependencies, just like we would for the rest of our artifact. This way, we maximize the reproducibility and portability of the code. And, equally important: we minimize the pain of getting it to work.</p>
+<h2 id="acknowledgments">Acknowledgments</h2>
+<p>Thanks Neil Mitchell for building and maintaining Shake, and for answering my questions on GitHub.</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://shakebuild.com">Shake documentation</a></li>
+<li><a href="https://docs.haskellstack.org/en/stable/README/">Stack documentation</a></li>
+<li><a href="https://github.com/MetaBorgCube/java.mstx/blob/master/tests/runner.hs">Complete runner.hs</a></li>
+</ul>

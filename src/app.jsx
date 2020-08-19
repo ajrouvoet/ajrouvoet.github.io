@@ -12,8 +12,10 @@ import 'font-awesome/css/font-awesome.css'
 
 // view components
 import Profile from './views/Profile.jsx'
+import Background from './views/Background.jsx'
 import Publication, {Publications} from './views/Publication.jsx'
 import News from './views/News.jsx'
+import Blog, {BlogIndex} from './views/Blog.jsx'
 
 // content
 import pubs_2013 from './content/publications/2013.yaml'
@@ -23,19 +25,6 @@ import pubs_2018 from './content/publications/2018.yaml'
 import pubs_2020 from './content/publications/2020.yaml'
 
 import news from './content/news.yaml'
-
-function CodePage() {
-    return (
-        <div>
-            <div className={css.Section}>
-                <h2 className={css.SectionTitle}>Public Repositories</h2>
-
-                <h2 className={css.SectionTitle}>Agda Formalizations</h2>
-                <h2 className={css.SectionTitle}>Other Projects</h2>
-            </div>
-        </div>
-    )
-}
 
 function PublicationsSection() {
     return (
@@ -61,24 +50,36 @@ function PublicationsSection() {
 }
 
 function Menu({}) {
-    // <li><Link to="/blog">Blog</Link></li>
     // <li><Link to="/cv">Curriculum Vitae</Link></li>
+            // <li><Link to="/code">Code</Link></li>
     return (
         <ol className={css.Menu}>
-            <li><Link to="/">News & Publications</Link></li>
-            <li><Link to="/code">Code</Link></li>
+          <li><Link to="/">News & Publications</Link></li>
+          <li><Link to="/blog">Blog</Link></li>
         </ol>
     )
 }
 
 function NewsSection({}) {
     return (
-        <div className={css.Section}>
+        <div className={css.Section} style={{background: 'transparent'}}>
             <h2 className={css.SectionTitle}>
                 Updates
             </h2>
             <News news={news} />
         </div>
+    )
+}
+
+function BlogPage() {
+    return (
+       <div className={css.Section} style={{background: 'transparent'}}>
+         <h2 className={css.SectionTitle}>
+           Blog
+         </h2>
+         <BlogIndex />
+         <Blog />
+       </div>
     )
 }
 
@@ -97,6 +98,7 @@ class App extends Component {
             <Router>
                 <div className={css.columns}>
                     <div className={css.left}>
+                        <Background />
                         <Profile />
 
                         <p>
@@ -105,8 +107,9 @@ class App extends Component {
                         </p>
                     </div>
                     <div className={css.right}>
+                        <Menu />
                         <Route exact path="/" component={Home} />
-                        <Route exact path="/code" component={CodePage} />
+                        <Route exact path="/blog" component={BlogPage} />
                     </div>
                 </div>
             </Router>

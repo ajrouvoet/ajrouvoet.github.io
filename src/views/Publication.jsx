@@ -104,7 +104,7 @@ export default class Publication extends Component {
                 </Commalist>
                 <Abstract text={pub.abstract} />
                 <ul className={css.Links}>
-                  {_.map(pub.links, (li, key) => <li><Link type={key} href={li} /></li> ) }
+                  {_.map(pub.links, (li, key) => <li key={key}><Link type={key} href={li} /></li> ) }
                 </ul>
             </li>
         )

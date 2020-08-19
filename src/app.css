@@ -9,7 +9,10 @@
 
 .column {
     flex: 1;
+    min-height: 0;
     padding-top: 50px;
+    align-items: center;
+    max-width: 100%;
 }
 
 .left {
@@ -35,6 +38,7 @@
 
 .Section {
     border-bottom: 1px solid #ddd;
+    background: white;
 }
 
 .Section > h2, .Section > h3 {
@@ -95,6 +99,8 @@
     color: #555;
 
     text-transform: uppercase;
+    text-decoration: underline;
+    font-weight: bold;
     text-overflow: hidden;
     white-space: nowrap;
 
