@@ -1,9 +1,9 @@
-<h1 id="shaken-not-made"><a href="#shaken">Shaken Not Made</a></h1>
+<h1 id="shaken-not-made"><a href="#/blog/shaken-not-made">Shaken Not Made</a></h1>
 <h2 id="better-glue-code-using-haskell-and-shake">Better Glue Code using Haskell and Shake</h2>
 <p>Arjen Rouvoet – August 19 2020</p>
 <hr />
 <p>Recently, I prepared an <a href="https://github.com/metaborgcube/java.mstx">artifact</a> for a conference. This artifact consisted of some software packages and a test suite, which was animated using a makefile and a bash script. As is often the case, this bit of shell script started out modest, but over time grew out into a significant bit of software. Not huge, but big enough to be considered more than glue code. This soon turns into a maintenance burden (if not nightmare), exemplified best by bugs caused by different versions of shell utilities between linuxes and macs.</p>
-<p>There are various ways to dev-op your way out of this. For example, using a <a href="https://nixos.org/">nix</a> development shell. In this blog post I will present an approach using Haskell and <a href="https://shakebuild.com/">Shake</a> instead of Bash and Make. This way we get all the benefits of a strongly typed language with an ecosystem of mature packages.</p>
+<p>There are various ways to dev-op your way out of this. For example, using a <a href="https://nixos.org/">Nix</a> development shell. In this blog post I will present an approach using Haskell and <a href="https://shakebuild.com/">Shake</a> instead of Bash and Make. This way we get all the benefits of a strongly typed language with an ecosystem of mature packages.</p>
 <p>First, I will summarize the task we have to automate. Of course, these techniques are applicable to all kinds of tasks! Then I will present the Haskell script that does the job. At the end of this blog post you should have a good idea of how one automates a bunch of tasks using Shake, and how this compares to Make and Shell scripting. This post is not for learning Haskell.</p>
 <h2 id="the-task-to-automate">The Task to Automate</h2>
 <p>We want to automate the task of running a test suite. The tests consist of a set of java programs, together with an expectation for the outcome of type checking these programs using two different type checkers: Javac and Statix. To keep things neat, we describe the whole test in a single file, formatted like this:</p>
@@ -36,7 +36,7 @@ class B extends A {...}
 <p>When we also wanted to add test expectations, to avoid false positives, we decided it would be better to replace the runner entirely with something more reliable.</p>
 <h2 id="using-haskell-and-shake">Using Haskell and Shake</h2>
 <p>How does one make a script more robust, portable, and maintainable? My unbiased view on this is simple: you implement it in a language with a strong type system and a mature package ecosystem. Enter Haskell. How do we get reliable, incremental test runs? We use a scriptable build system. Enter Shake.</p>
-<p>Shake is like Make, but as an <em>embedded domain specific language</em> (EDSL) in Haskell. The main benefit of using a Haskell EDSL is that you can leverage arbitrary Haskell code (and libraries) to do complicated processing in a typed manner. For example, we can use the Parsec parser combinator library to parse the above test format. This may initially come across as over engineering. But the result is a single Haskell script of a mere ~180 lines of Haskell. The 30 line increase in size is due to having more features (supporting test expectations), <em>not</em> due to overhead of the language!</p>
+<p>Shake is like Make, but as an <em>embedded domain specific language</em> (EDSL) in Haskell. The main benefit of using a Haskell EDSL is that you can leverage arbitrary Haskell code (and libraries) to do complicated processing in a typed manner. For example, we can use the Parsec parser combinator library to parse the above test format. This may appear as heavy-weight, but the result is a single Haskell script of a mere ~180 lines of Haskell. The 30 line increase in size is due to having more features (supporting test expectations), <em>not</em> due to overhead of the language!</p>
 <p>To accomplish this, we set up a Haskell script as follows (if you want to hack along, then peek at the Stack setup at the end of this post):</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>(<span class="op">...</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a></span>
@@ -112,7 +112,7 @@ class B extends A {...}
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true"></a>  want [ result ]</span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true"></a>  </span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true"></a>  (<span class="op">...</span>more to follow)</span></code></pre></div>
-<p>Having informed Shake of what we <em>want</em>, we now have to inform it about how to get it. This is done with make-like rules, as follows:</p>
+<p>Having informed Shake of <em>what</em> we want, we now have to inform it about <em>how</em> to get it. This is done with make-like rules, as follows:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>  <span class="co">-- A build rule has a similar structure as a make rule, with the target on the</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>  <span class="co">-- left of the (%&gt;) combinator. The `out` variable contains the path to write to.</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>  result <span class="op">%&gt;</span> \out <span class="ot">-&gt;</span> <span class="kw">do</span></span>

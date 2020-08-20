@@ -9,7 +9,7 @@
 
 .column {
     flex: 1;
-    min-height: 0;
+    min-height: 0
     padding-top: 50px;
     align-items: center;
     max-width: 100%;

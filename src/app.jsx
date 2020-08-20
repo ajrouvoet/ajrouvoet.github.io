@@ -109,7 +109,7 @@ class App extends Component {
                     <div className={css.right}>
                         <Menu />
                         <Route exact path="/" component={Home} />
-                        <Route exact path="/blog" component={BlogPage} />
+                        <Route path="/blog" component={BlogPage} />
                     </div>
                 </div>
             </Router>

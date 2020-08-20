@@ -1,4 +1,4 @@
-# [Shaken Not Made](#shaken)
+# [Shaken Not Made](#/blog/shaken-not-made)
 ## Better Glue Code using Haskell and Shake
 
 Arjen Rouvoet -- August 19 2020
@@ -15,7 +15,7 @@ exemplified best by bugs caused by different versions of shell utilities between
 linuxes and macs.
 
 There are various ways to dev-op your way out of this. For example, using a
-[nix](https://nixos.org/) development shell.  In this blog post I will present
+[Nix](https://nixos.org/) development shell.  In this blog post I will present
 an approach using Haskell and [Shake](https://shakebuild.com/) instead of Bash
 and Make.  This way we get all the benefits of a strongly typed language with an
 ecosystem of mature packages.
@@ -89,7 +89,7 @@ Shake is like Make, but as an _embedded domain specific language_ (EDSL) in
 Haskell.  The main benefit of using a Haskell EDSL is that you can leverage
 arbitrary Haskell code (and libraries) to do complicated processing in a typed
 manner.  For example, we can use the Parsec parser combinator library to parse
-the above test format.  This may initially come across as over engineering. But
+the above test format.  This may appear as heavy-weight, but
 the result is a single Haskell script of a mere ~180 lines of Haskell. The 30
 line increase in size is due to having more features (supporting test
 expectations), _not_ due to overhead of the language!
@@ -188,7 +188,7 @@ rules Test{ path, files, javac, statix } = do
   (...more to follow)
 ```  
  
-Having informed Shake of what we *want*, we now have to inform it about how to
+Having informed Shake of *what* we want, we now have to inform it about *how* to
 get it. This is done with make-like rules, as follows:
 
 ```haskell

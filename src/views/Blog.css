@@ -15,6 +15,16 @@
   content: '> '
 }
 
+.BlogHeader li {
+  font-size: 11pt;
+  text-transform: uppercase;
+  color: color(white a(75%));
+}
+
+.BlogHeader span {
+  color: white;
+}
+
 .BlogHeader li a {
   margin-left: 10px;
 }
@@ -41,4 +51,9 @@
 .Blog ul {
   list-style-type: square;
   margin-left: 30px;
+}
+
+.Blog a {
+  color: darkcyan;
+  text-decoration: underline;
 }
