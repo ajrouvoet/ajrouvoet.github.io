@@ -1,0 +1,42 @@
+<h1 class="title" id="preparing-software-artifacts-using-qemu"><a href="#/blog/artifact-vms">Preparing Software Artifacts using QEMU</a></h1>
+<p>Arjen Rouvoet – August 25 2020</p>
+<hr />
+<p>Unlike in many other scientific fields, reproducing experiments can <em>potentially</em> be very cheap in computer science. This is a fantastic feature! Reading papers always prompts questions of the kind ‘can system X handle problem Y?’. Just giving problem Y to system X is a much easier—and more fun—way of answering that question than to try and work it out on paper.</p>
+<p>Going from ‘potentially reproducible’ to ‘actually reproducible over time and different systems’ is however more of a leap than one would hope. I guestimate that the average number of errors that a researcher is willing to solve to get any given system X to run is less than the average number of errors it produces.</p>
+<p>Reliable software deployment is just <em>hard</em> and takes iterations of feedback from users on different systems and bugfixes. Research products seldom have a sufficiently large user base to iron out these deployment kinks, and often do not see sufficient maintenance over time. For this reason it is usually a good idea to provide research software artifacts not just as a source package, but also in deployed form on a virtual system.</p>
+<p>Provisioning a virtual machine is conceptually simple, but (as is often the case in dev ops), has plenty of pitfalls and gotchas. This blog post is not a this-is-a-new-and-fantastic-way-of-provisioning-VMs sort of post (we might get to that in the future), but rather a basic avoid-these-traps sort of post that I have written with the sole purpose of saving you time. At the end of this post I briefly discuss some more advanced tools for improving the process of provisioning, but are outside the scope of this particular post.</p>
+<p>I tend to not do things perfectly right the first time, and so I will do my best to present a process for preparing a VM that makes it easy to repeat it if necessary, without actually relying yet on specialized tools for provisioning the guest.</p>
+<h2 id="basic-concepts-of-qemu">Basic Concepts of QEMU</h2>
+<p>The base VM image that the international conference on functional programming (ICFP) provided this year was provisioned using QEMU, which appears to be <em>the preferred</em> cross-platform way to do this nowadays.</p>
+<p>In provisioning with the VM we will have to deal with a number of parties. In particular, we have to deal with (1) the <em>host</em>, (2) the <em>hypervisor</em>, (3) the <em>accelerator</em>, and finally (4) the <em>guest</em>. The host runs the hypervisor, which somehow emulates the guest, whose data resides on an image. Our hypervisor/emulator is QEMU. It offers various accelerators that determine how the emulation works. A reliable (but slow) cross-platform method is to simulate the guest processor entirely using the ‘tiny code generator’ (<code>-accel tcg</code>). Usually you want to use hardware acceleration using kernel base virtualization (<code>-accel kvm</code>) on Linux, the hardware virtualization framework (<code>-accel hfv</code>) on macOS, or the windows hypervisor platform (<code>-accel whpx</code>) on Windows.</p>
+<p>These concepts come together in the command that one uses to start up a guest. For example, if we want to use KVM, we would invoke QEMU as follows (taken from the ICFP ’20 <code>start.sh</code> script):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="ex">qemu-system-x86_64</span> <span class="kw">\</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>        <span class="ex">-name</span>   <span class="st">&quot;Artifact&quot;</span> <span class="kw">\</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>        <span class="ex">-accel</span>  kvm <span class="kw">\</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>        <span class="ex">-cpu</span>    max <span class="kw">\</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>        <span class="ex">-m</span>      4096 <span class="kw">\</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>        <span class="ex">-hda</span>    box.qcow2 <span class="kw">\</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>        <span class="ex">-device</span> e1000,netdev=net0 <span class="kw">\</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>        <span class="ex">-netdev</span> user,id=net0,hostfwd=tcp::5555-:22</span></code></pre></div>
+<p>Besides naming the guest system and choosing the acceleration method, it selects the host’s CPU to run on, and the amount of memory to make available to the guest, and the location of the image that contains the guest (<code>box.qcow2</code>). It also adds and names the (default, I believe) network card, so that we can forward port 5555/TCP on the host to the default SSH port (22/TCP) on the guest.</p>
+<h2 id="images-as-seen-from-the-outside-format-tools">Images as Seen from the Outside: Format &amp; Tools</h2>
+<p>We now turn our attention to the guest image <code>box.qcow2</code>. First we look into the format of the image, and the QEMU tools for manipulating images from the side of the host. Then we look at some tools that we need on the guest-side of the VM.</p>
+<h3 id="image-formats">Image Formats</h3>
+<p>QEMU supports a variety of image formats and can convert between them. For basic use, there are two formats that one should be aware of: <em>raw</em> and <em>qcow2</em>.</p>
+<p>The raw image format ensures that the guest and host see exactly the same bytes. This is useful, for example, if you want to be able to mount the guest image in the host as a loop device, or if need little overhead for disk IO in the guest. The downside of raw images is that consume the full amount of space that is allocated to the guest on the host’s disk. If you care about sharing your VM, this is not ideal.</p>
+<p>On the other hand, the qcow{,2,3} image format is a copy-on-write format that can grow dynamically. This means that you can create an image of 20Gb with good conscience, create a file-system on the guest that sees the full 20Gb, and it will only require little space on the host’s disk. As you start writing non-zero bits to the guest’s drive, the qcow formatted image will grow dynamically, upto ~20Gb.</p>
+<p>We create an image of a specified size using the following command:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="ex">qemu-img</span> create -f qcow2 box.qcow2 20G</span></code></pre></div>
+<h3 id="section"></h3>
+<h2 id="images-as-seen-from-the-inside">Images as Seen from the Inside</h2>
+<h3 id="resizing-an-image-shrinkwrap-before-sharing">Resizing an Image (Shrinkwrap before Sharing!)</h3>
+<h3 id="provisioning-the-guest">Provisioning the Guest</h3>
+<h2 id="better-automated-provisioning">Better Automated Provisioning</h2>
+<h2 id="summary">Summary</h2>
+<h2 id="conclusion">Conclusion</h2>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://www.qemu.org/">QEMU homepage</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/QEMU">Arch Linux Wiki on QEMU</a></li>
+</ul>
+<h2 id="appendix-advice-to-artifact-evaluation-committees">Appendix: Advice to Artifact Evaluation Committees</h2>

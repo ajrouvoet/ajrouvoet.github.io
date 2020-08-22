@@ -2,13 +2,20 @@ import React from 'react'
 import {Route, Link, Switch, useRouteMatch, useParams} from 'react-router-dom'
 import _ from 'lodash'
 
-import style from './Blog.css'
+import style     from './Blog.css'
 import codestyle from '../content/blog/shaken-not-made.css'
+
 import shake from '../content/blog/shaken-not-made.html'
-import news  from './News.css'
+import qemu  from '../content/blog/artifact-vm.html'
 
 let posts = [
-  [ "shaken-not-made", 
+  [ "artifact-vms",
+    { date: "August 25 2020"
+    , title: "Preparing Software Artifacts using QEMU"
+    , content: qemu
+    }
+  ]
+  , [ "shaken-not-made",
     { date: "August 19 2020"
     , title: "Shaken not Made"
     , content: shake
@@ -31,7 +38,7 @@ export function BlogIndex() {
 }
 
 function PostBody({content}) {
-  return <div dangerouslySetInnerHTML={{__html: content}} 
+  return <div dangerouslySetInnerHTML={{__html: content}}
               className={codestyle.WithCode} />
 }
 
@@ -40,7 +47,7 @@ function Post() {
 
   if(postsMap[post]) {
     let content = postsMap[post].content
-  
+
     return (
       <PostBody content={content} />
     )
@@ -58,7 +65,7 @@ export default function Blog() {
           <Switch>
             <Route exact path={path}>
               { _.map(posts, ([ path, {content} ]) => (
-                  <PostBody content={content} />
+                  <PostBody key={path} content={content} />
                 ))
               }
             </Route>
@@ -70,4 +77,3 @@ export default function Blog() {
       </div>
     )
 }
-

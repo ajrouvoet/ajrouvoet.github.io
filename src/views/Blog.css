@@ -5,6 +5,14 @@
   line-height: 1.5;
 }
 
+.Blog :global(.title),:global(.subtitle) {
+  text-align: left;
+}
+
+.Blog :global(.title) a {
+  text-decoration: none;
+}
+
 .BlogHeader {
   padding: 30px;
   color: white;
@@ -12,12 +20,16 @@
 }
 
 .BlogHeader li::before {
-  content: '> '
+  content: '> ';
 }
 
 .BlogHeader li {
-  font-size: 11pt;
+  font-size: 14pt;
   text-transform: uppercase;
+  line-height: 1.5;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: color(white a(75%));
 }
 
@@ -29,9 +41,17 @@
   margin-left: 10px;
 }
 
+.BlogHeader h1,h2,h3 {
+  line-height: 1.0;
+}
+
 .Wrapper {
   padding: 30px;
   box-sizing: border-box;
+}
+
+.Blog h1,h2,h3 {
+  line-height: 1.3;
 }
 
 .Blog h1 {
@@ -40,6 +60,12 @@
 
 .Blog h2 {
   font-size: 16pt;
+}
+
+.Blog h3 {
+  font-size: 12pt;
+  font-weight: normal;
+  font-style: italic;
 }
 
 .Blog ol {

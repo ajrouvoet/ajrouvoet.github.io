@@ -1,5 +1,5 @@
-# [Shaken Not Made](#/blog/shaken-not-made)
-## Better Glue Code using Haskell and Shake
+# [Shaken Not Made](#/blog/shaken-not-made) {.title}
+## Better Glue Code using Haskell and Shake {.subtitle}
 
 Arjen Rouvoet -- August 19 2020
 
@@ -79,7 +79,7 @@ it would be better to replace the runner entirely with something more reliable.
 
 ## Using Haskell and Shake
 
-How does one make a script more robust, portable, and maintainable? 
+How does one make a script more robust, portable, and maintainable?
 My unbiased view on this is simple: you implement it in a language with a strong
 type system and a mature package ecosystem. Enter Haskell.
 How do we get reliable, incremental test runs? We use a scriptable build system.
@@ -106,7 +106,6 @@ import Development.Shake.FilePath
 import Development.Shake.Util
 
 data Expect = ExpectOK | ExpectFail String deriving Show
-
 data Test = Test
   { path   :: FilePath
   , files  :: [(String, String)] -- filename , contents
@@ -120,11 +119,13 @@ main = do
   case args of
     []      -> die "Missing argument: runner <input.test>"
     test:_  -> runTest test
-    
+
 runTest :: String -> IO ()
 runTest testPath = do
     -- (1) parse test format
-    txt        <- pack <$> readFile 
+    -- Details of the parser omitted (link to complete script at the end),
+    -- but it is implemented using the Parsec library.
+    txt        <- pack <$> readFile
     let result =  parse (parseTest testPath) testPath txt
     test       <- case result of
       Left err   -> die $ "Could not parse test: " <> show err
@@ -133,24 +134,13 @@ runTest testPath = do
     -- (2) create java files in build directory
     forM_ (files test) $ \(fname, content) ->
       writeFileChanged (buildDir </> fname) content
-    
+
     -- Let Shake do the remainder of the incremental build
-    shake shakeOptions 
+    shake shakeOptions
       { shakeFiles  = buildDir
       , shakeChange = ChangeDigest
-      } 
+      }
       rules
-
-buildDir :: String
-buildDir = "./_build"
-
-rules :: Test -> Rules ()
-rules = _ -- TODO
-
--- Parser details omitted, but can be implemented using Parsec!
--- No more awk/grep/sed on my watch.
-parseTest :: FilePath -> Parsec Text u Test
-parseTest path = _
 ```
 
 The runner has a simple command-line interface that takes a single test as input.
@@ -164,30 +154,28 @@ directory, and enables change detection based on digests rather than by
 modification times, which is the default (and could also be a fine choice, since
 we used `writeFileChanged` anyway).
 
-We now focus on the `rules :: Rules ()` that automate the incremental build, 
+We now focus on the `rules :: Rules ()` that automate the incremental build,
 and explain the steps inline:
 
 ```haskell
 rules :: Rules ()
 rules Test{ path, files, javac, statix } = do
 
-  -- We compute the location of the java files using a list comprehension:
+  -- We compute the location of the java and aterm files using
+  -- list comprehension and the operator (-<.>) which replaces
+  -- file extensions:
   let javaFiles  = [ buildDir </> j | (j, _) <- files ]
-
-  -- We then similarly compute the set of aterms from that using the utility `(-<.>)`,
-  -- which replaces file extensions:
   let aterms     = [ j -<.> "aterm" | j <- javafiles ]
-  
-  -- The result of the test will be stored on disk here:
+
   let result     = buildDir </> "result"
-    
+
   -- Now we inform shake that we want to build the result:
   -- Even before we tell it how it can build this target.
   want [ result ]
-  
+
   (...more to follow)
-```  
- 
+```
+
 Having informed Shake of *what* we want, we now have to inform it about *how* to
 get it. This is done with make-like rules, as follows:
 
@@ -198,6 +186,7 @@ get it. This is done with make-like rules, as follows:
 
     -- We always run this rule, so that the test result is always outputted.
     -- This is fine, because it basically just reads back the results of other rules.
+    -- Can you recall how to do this with Make? ;-)
     alwaysRerun
 
     -- We read the output of Javac and Statix.
@@ -211,7 +200,7 @@ get it. This is done with make-like rules, as follows:
 
     -- Output the test result
     liftIO $ putStrLn $ "[" <> res <> "] " <> testPath
-```  
+```
 
 This task thus describes how to build `result`, by reading some outputs from
 dependencies and combining them into a new output.  Shake has [various
@@ -220,7 +209,7 @@ dependencies and invoking shell functions.
 
 The above task depends on the files `{java,stx}.result`, which are produced by
 `javac` and `statix` respectively:
-    
+
 ```haskell
   -- From executing javac we will gather the output (stderr/out) and the result,
   -- i.e., whether it has met our expectation of the run.
@@ -237,7 +226,7 @@ The above task depends on the files `{java,stx}.result`, which are produced by
     -- We capture the stdout and stderr in a single string `sout` on the LHS:
     (Exit code, Stdouterr sout) <- withVerbosity Verbose $
                                      cmd "javac -d" buildDir javaFiles
-                                     
+
     -- We write the sout to a target file for debugging purposes.
     writeFileChanged out $ sout
 
@@ -249,7 +238,7 @@ The above task depends on the files `{java,stx}.result`, which are produced by
     -- Finally we output the result we computed for commandline user:
     liftIO $ putStrLn $ "[JAVA:" <> result <> "] " <> testPath
 
-   
+
   -- The rule for Statix takes the same shape:
   [ buildDir </> "stx.out" , buildDir </> "stx.result" ] &%> \[out, res] -> do
 
@@ -257,7 +246,7 @@ The above task depends on the files `{java,stx}.result`, which are produced by
     -- separate rule below:
     need [ testPath ]
     need aterms
-    
+
     (...)
 ```
 
@@ -274,8 +263,8 @@ similar to a make rule for `%.aterm`:
     -- We again use a command to produce the target.
     -- This time we are not interested in the exitcodes/output, so we use `cmd_`
     cmd_ "java2aterm" java out
-``` 
-  
+```
+
 The example code used some auxiliary functions, which are just normal Haskell
 functions:
 
