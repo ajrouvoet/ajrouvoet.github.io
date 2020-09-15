@@ -19,6 +19,7 @@ let posts = [
     { date: "August 19 2020"
     , title: "Shaken not Made"
     , content: shake
+    , draft: true
     }
   ]
 ]
@@ -27,10 +28,10 @@ let postsMap  = _.fromPairs(posts)
 export function BlogIndex() {
   return (
     <ol className={style.BlogHeader}>
-    { _.map(posts, ([path, {date, title, content}]) => (
-        <li key={path}>
+    { _.map(posts, ([path, {draft, date, title, content}]) => (
+        draft ? <li key={path}>
           <Link to={`/blog/${path}`}><span>{title}</span> <i>({date})</i></Link>
-        </li>
+        </li> : null
       ))
     }
     </ol>
@@ -64,8 +65,8 @@ export default function Blog() {
         <div className={style.Wrapper}>
           <Switch>
             <Route exact path={path}>
-              { _.map(posts, ([ path, {content} ]) => (
-                  <PostBody key={path} content={content} />
+              { _.map(posts, ([ path, {content, draft} ]) => (
+                  draft ? <PostBody key={path} content={content} /> : null
                 ))
               }
             </Route>

@@ -73,7 +73,7 @@ class Abstract extends Component {
 
 function Link(props) {
   let {href, type} = props
-  
+
   let icon
   if (type === 'pdf') {
     icon = <span><span className="fa fa-file"></span> PDF</span>

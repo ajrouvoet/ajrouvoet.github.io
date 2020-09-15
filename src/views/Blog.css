@@ -2,15 +2,16 @@
   text-align: justify;
   text-justify: inter-word;
   background-color: white;
+  font-size: 12pt;
   line-height: 1.5;
 }
 
 .Blog :global(.title),:global(.subtitle) {
-  text-align: left;
+  text-align: left !important;
 }
 
 .Blog :global(.title) a {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .BlogHeader {

@@ -1,7 +1,8 @@
 @import '../style/variables';
 
 .Author {
-    font-size: 15pt;
+    font-size: 12pt;
+    font-style: italic;
 }
 
 .Abstract {
@@ -14,8 +15,8 @@
 
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 11pt;
-    line-height: 17pt;
+    font-size: 12pt;
+    line-height: 1.5;
 }
 
 .Abstract.fold {
@@ -47,9 +48,14 @@
 }
 
 .Publication h3 {
-    font-size: 18pt;
+    font-size: 16pt;
     line-height: 30pt;
     color: var(--hl);
+}
+
+.Publication h4 {
+    font-size: 13pt;
+    line-height: 1.5;
 }
 
 .Publication .Links {

@@ -64,7 +64,8 @@ qemu-system-x86_64 \
         -m      4096 \
         -hda    box.qcow2 \
         -device e1000,netdev=net0 \
-        -netdev user,id=net0,hostfwd=tcp::5555-:22
+        -netdev user,id=net0,hostfwd=tcp::5555-:22 \
+        $@
 ```
 
 Besides naming the guest system and choosing the acceleration method, it selects
@@ -100,7 +101,7 @@ will only require little space on the host's disk. As you start writing non-zero
 bits to the guest's drive, the qcow formatted image will grow dynamically, upto
 ~20Gb.
 
-We create an image of a specified size using the following command:
+Creating an image of a specified size is done using the following command:
 
 ```bash
 qemu-img create -f qcow2 box.qcow2 20G
@@ -116,6 +117,25 @@ qemu-img convert -O qcow2 box.img box.qcow2
 # compress a qcow image, reclaiming zero bits for the host
 qemu-img convert -O qcow2 box.qcow2 box-compressed.qcow2
 ```
+
+## Backing Images & Snapshots
+
+The workflow that I would propose for creating an artifact VM, is as follows:
+
+- Create a qcow2 image `base.qcow2` for the OS of your choice.
+- Install the OS on `base.qcow2`, set-up a default user and ssh access.
+- Clean the base image, zero-out all the free space and compress the result.
+- Create a qcow2 image `box.qcow2` for the artifact, _backed_ by the base.
+  This effectively acts like a snapshot, using the copy-on-write file system
+  features to keep the base image untouched.
+  This makes it easy to start cleanly if things go sideways, or if you need to
+  provision another artifact in the future.
+- Start `box.qcow2` and provision your guest.
+- Clean the guest, zero-out all the free space.
+- Merge the `box.qcow` with (a copy of) the base and compress the image for sharing.
+
+If you want to do any testing that would pollute the guest, you can create
+another snapshot and do your testing there afterwards.
 
 ## Images as Seen from the Inside
 
