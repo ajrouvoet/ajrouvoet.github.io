@@ -1,7 +1,8 @@
 .PaperContainer {
     text-align: center;
-    margin: 30px;
-    margin-top: 50px;
+    overflow: auto;
+    padding: 30px;
+    padding-top: 50px;
 }
 
 .Paper {
