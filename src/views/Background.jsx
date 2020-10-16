@@ -17,6 +17,8 @@ export default class Background extends Component {
           opacity: '20%',
           fill: 'white'
         }
+        // disabled
+        return null;
         return (
             <svg className={css.Canvas} viewBox="0 0 100 100" preserveAspectRatio="none" 
                  style={style}>

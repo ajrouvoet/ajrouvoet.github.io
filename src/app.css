@@ -49,7 +49,7 @@
 .SectionTitle {
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
-    font-size: 20pt;
+    font-size: 14pt;
     background-color: white;
 
     width: 100%;
@@ -65,7 +65,8 @@
 .PubYear {
     composes: SectionTitle;
     background-color: #fefefe;
-    font-size: 20pt;
+    font-size: 14pt;
+    line-height: 14pt;
     font-weight: normal;
 }
 
@@ -73,7 +74,7 @@
     margin-right: 10px;
     content: "▷";
     font-size: 10pt;
-    line-height: 20pt;
+    line-height: 14pt;
     vertical-align: middle;
 }
 
@@ -81,26 +82,21 @@
     width: 100%;
     display: flex;
     flex-flow: row wrap;
-    background-color: #ccc;
+    background-color: color(black a(50%));
 }
 
 .Menu li {
-    flex: 1;
-    flex-grow: 1;
-    flex-shrink: 1;
-    width: 300px;
     display: flex;
 
     transition-property: background-color color;
     transition-duration: 200ms;
     transition-timing-function: ease-in-out;
 
-    background-color: color(#ddd);
-    color: #555;
+    color: white;
 
     text-transform: uppercase;
-    text-decoration: underline;
     font-weight: bold;
+    font-size: 12pt;
     text-overflow: hidden;
     white-space: nowrap;
 
@@ -108,14 +104,14 @@
     border-bottom: 1px solid;
     border-color: #aaa;
 
-    height: 40pt;
-    line-height: 40pt;
+    height: 30pt;
+    line-height: 30pt;
     vertical-align: middle;
     padding: 0;
 }
 
 .Menu li:hover {
-    background-color: color(#ddd tint(30%));
+    background-color: color(black a(80%));
 }
 
 .Menu li a {

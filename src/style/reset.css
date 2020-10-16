@@ -5,6 +5,10 @@
     text-size-adjust: none;
 }
 
+hr {
+    display: none;
+}
+
 html {
     height: 100%;
 }
@@ -15,14 +19,34 @@ ul, ol {
     margin: 0px;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3 {
     margin: 0px;
+    line-height: 1;
+}
+
+h2, h3 {
     font-family: 'Libre Baskerville', serif;
 }
 
 h1 {
     margin: 0px;
-    font-size: 50pt;
+    font-size: 30pt;
+}
+
+h3 {
+    font-size: 14pt;
+}
+
+h4 {
+    margin: 0px;
+    font-size: 14pt;
+    font-style: italic;
+    font-weight: normal;
+}
+
+p {
+    margin: 8px 0px;
+    line-height: 1.5;
 }
 
 :global(#root) {
@@ -34,9 +58,8 @@ h1 {
 :global(#overlay) {}
 
 body {
-    background: linear-gradient(to bottom right, darkcyan, #232839 75%);
-    font-size: 14pt;
-    font-family: 'Roboto', sans-serif;
+    font-size: 12pt;
+    font-family: 'Source Sans Pro', serif;
     font-style: normal;
     font-weight: 400;
     overflow-y: scroll;

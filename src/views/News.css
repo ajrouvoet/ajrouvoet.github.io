@@ -1,5 +1,5 @@
 .News {
-    padding: 30px;
+    padding: 10px;
     color: white;
     background: color(white a(5%));
 }
@@ -8,7 +8,6 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-    margin-bottom: 5px;
     padding: 5px 0px;
     color: color(white a(60%));
 }
@@ -23,9 +22,10 @@
 }
 
 .NewsItem h1 {
-    font-family: 'Roboto', sans-serif;
-    font-size: 18pt;
+    font-size: 14pt;
     font-weight: bold;
+    display: inline-block;
+    margin-right: 10px;
 }
 
 .NewsDate {

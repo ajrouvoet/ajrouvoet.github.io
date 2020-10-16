@@ -1,28 +1,28 @@
-- authors:
-  - who: Arjen Rouvoet
-    affiliation: Delft University of Technology
-  - who: Hendrik van Antwerpen
-    affiliation: Delft Universtiy of Technology
-    site: https://hendrik.van-antwerpen.net/
-  - who: Casper Bach Poulsen
-    affiliation: Delft University of Technology
-    site: http://casperbp.net/
-  - who: Robbert Krebbers
-    affiliation: Delft University of Technology
-    site: https://robbertkrebbers.nl/
-  - who: Eelco Visser
-    affiliation: Delft University of Technology
-    site: http://eelcovisser.org/
+oopsla:
+  authors:
+    - who: Arjen Rouvoet
+      affiliation: Delft University of Technology
+      site: https://ajrouvoet.github.io/
+    - who: Hendrik van Antwerpen
+      affiliation: Delft Universtiy of Technology
+      site: https://hendrik.van-antwerpen.net/
+    - who: Casper Bach Poulsen
+      affiliation: Delft University of Technology
+      site: http://casperbp.net/
+    - who: Robbert Krebbers
+      affiliation: Radboud University and Delft University of Technology
+      site: https://robbertkrebbers.nl/
+    - who: Eelco Visser
+      affiliation: Delft University of Technology
+      site: http://eelcovisser.org/
 
   title: Knowing when to ask
   subtitle: >
-    Safely scheduling name resolution queries in type checkers derived from
-    declarative specifications
+      Sound scheduling name resolution queries in type checkers derived from
+      declarative specifications
   publication:
 
   abstract: >
-    (Conditionally accepted)
-
     There is a large gap between the specification of type systems and the
     implementation of their type checkers, which impedes reasoning about the
     soundness of the type checker with respect to the specification. A vision to
@@ -30,7 +30,6 @@
     programming language specifications. This moves the burden of proving
     correctness from a case-by-case basis for concrete languages, to a single
     correctness proof for the specification language.
-
     This vision is obstructed by an aspect common to all programming languages: name
     resolution. Naming and scoping are pervasive and complex aspects of the static
     semantics of programming languages. Implementations of type checkers for
@@ -55,23 +54,26 @@
     of Java and Scala.
 
   links:
-    OOPSLA conditionally accepted papers: https://2020.splashcon.org/track/splash-2020-oopsla#event-overview
-    pdf: ./files/oopsla-2020.pdf
-    Extended pdf: ./files/oopsla-2020-extended-version.pdf
+      OOPSLA: https://2020.splashcon.org/track/splash-2020-oopsla#event-overview
+      pdf: ./files/oopsla-2020.pdf
+      site: /#/papers/knowing-when-to-ask
+      Extended: https://zenodo.org/record/4091445
+      Artifact: https://zenodo.org/record/4068065
 
-- authors:
+cpp:
+  authors:
 
-  - who: Arjen Rouvoet
-    affiliation: Delft University of Technology
-  - who: Casper Bach Poulsen
-    affiliation: Delft University of Technology
-    site: http://casperbp.net/
-  - who: Robbert Krebbers
-    affiliation: Delft University of Technology
-    site: https://robbertkrebbers.nl/
-  - who: Eelco Visser
-    affiliation: Delft University of Technology
-    site: http://eelcovisser.org/
+    - who: Arjen Rouvoet
+      affiliation: Delft University of Technology
+    - who: Casper Bach Poulsen
+      affiliation: Delft University of Technology
+      site: http://casperbp.net/
+    - who: Robbert Krebbers
+      affiliation: Delft University of Technology
+      site: https://robbertkrebbers.nl/
+    - who: Eelco Visser
+      affiliation: Delft University of Technology
+      site: http://eelcovisser.org/
 
   publication:
 

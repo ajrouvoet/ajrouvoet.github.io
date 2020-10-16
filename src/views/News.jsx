@@ -12,7 +12,7 @@ export default function News({news}) {
                     <div className={css.NewsItemBorder}></div>
                     <div className={css.NewsItemBody}>
                         <h1 dangerouslySetInnerHTML={{__html: title}} />
-                        <p className={css.NewsDate}>{date}</p>
+                        <span className={css.NewsDate}>{date}</span>
                     </div>
                 </li>
               ))

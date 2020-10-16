@@ -2,7 +2,7 @@ import './style/reset.css'
 
 import React, {Component} from 'react'
 import {render} from 'react-dom'
-import {HashRouter as Router, Route, Link} from 'react-router-dom'
+import {HashRouter as Router, Route, Link, Switch, useRouteMatch} from 'react-router-dom'
 
 import css from './app.css'
 
@@ -16,6 +16,7 @@ import Background from './views/Background.jsx'
 import Publication, {Publications} from './views/Publication.jsx'
 import News from './views/News.jsx'
 import Blog, {BlogIndex} from './views/Blog.jsx'
+import Kwta from './content/papers/Kwta.jsx'
 
 // content
 import pubs_2013 from './content/publications/2013.yaml'
@@ -92,26 +93,50 @@ function Home({}) {
     )
 }
 
+function Papers() {
+    let { path, url } = useRouteMatch();
+    return [ <style dangerouslySetInnerHTML={{__html: `
+        body {
+          background: linear-gradient(to bottom right, #80a32a, #232839 75%);
+        }`
+      }} />
+    , <Switch>
+        <Route exact path={`${path}/knowing-when-to-ask`} component={Kwta} />
+        <Route>404</Route>
+      </Switch>
+    ]
+}
 class App extends Component {
     render() {
         return (
             <Router>
-                <div className={css.columns}>
-                    <div className={css.left}>
-                        <Background />
-                        <Profile />
+                <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet" /> 
+                <Switch>
+                    <Route path="/papers" component={Papers} />
+                    <Route>
+                       <style dangerouslySetInnerHTML={{__html: `
+                         body {
+                           background: linear-gradient(to bottom right, darkcyan, #232839 75%);
+                         }`
+                       }} />
+                       <div className={css.columns}>
+                           <div className={css.left}>
+                               <Background />
+                               <Profile />
 
-                        <p>
-                            {"<>< "}
-                            <a taret="_blank" href="https://www.bible.com/bible/116/PSA.139">Ps. 139</a>
-                        </p>
-                    </div>
-                    <div className={css.right}>
-                        <Menu />
-                        <Route exact path="/" component={Home} />
-                        <Route path="/blog" component={BlogPage} />
-                    </div>
-                </div>
+                               <p>
+                                   {"<>< "}
+                                   <a taret="_blank" href="https://www.bible.com/bible/116/PSA.139">Ps. 139</a>
+                               </p>
+                           </div>
+                           <div className={css.right}>
+                               <Menu />
+                               <Route exact path="/" component={Home} />
+                               <Route path="/blog" component={BlogPage} />
+                           </div>
+                       </div>
+                    </Route>
+                </Switch>
             </Router>
         )
     }

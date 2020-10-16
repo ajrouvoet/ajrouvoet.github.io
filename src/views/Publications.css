@@ -1,10 +1,5 @@
 @import '../style/variables';
 
-.Author {
-    font-size: 12pt;
-    font-style: italic;
-}
-
 .Abstract {
     text-align: justify;
     border-bottom: 1px solid #ddd;
@@ -37,8 +32,8 @@
 .Publication {
     border-bottom: 1px solid #ccc;
 
-    padding: 30px;
-    padding-left: 50px;
+    padding: 20px;
+    padding-left: 30px;
     padding-bottom: 0px;
 
     background-color: white;
@@ -48,13 +43,10 @@
 }
 
 .Publication h3 {
-    font-size: 16pt;
-    line-height: 30pt;
     color: var(--hl);
 }
 
 .Publication h4 {
-    font-size: 13pt;
     line-height: 1.5;
 }
 

@@ -40,7 +40,7 @@ export function BlogIndex() {
 
 function PostBody({content}) {
   return <div dangerouslySetInnerHTML={{__html: content}}
-              className={codestyle.WithCode} />
+              className={`${codestyle.WithCode} ${style.PostBody}`} />
 }
 
 function Post() {

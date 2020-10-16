@@ -7,25 +7,8 @@ import css from './Publications.css'
 
 import Commalist from './Commalist.jsx'
 import Nl2br from './Nl2br.jsx'
-
-class Author extends Component {
-    static propTypes = {
-        author: PropTypes.object.isRequired
-    }
-
-    render() {
-        let {author} = this.props
-
-        return (
-            <div className={css.Author} style={{display: "inline"}}>
-            { author.site
-                ? <a target="_blank" href={author.site}>{author.who}</a>
-                : <span>{author.who}</span>
-            }
-            </div>
-        )
-    }
-}
+import Author from './Author.jsx'
+import Link from './Link.jsx'
 
 class Abstract extends Component {
     static propTypes = {
@@ -71,22 +54,6 @@ class Abstract extends Component {
     }
 }
 
-function Link(props) {
-  let {href, type} = props
-
-  let icon
-  if (type === 'pdf') {
-    icon = <span><span className="fa fa-file"></span> PDF</span>
-  } else if (type === 'code') {
-    icon = <span><span className="fa fa-code"></span> Code</span>
-  } else {
-    icon = <span><span className="fa fa-link"></span> {type}</span>
-  }
-
-
-  return (<a target="_blank" href={href}>{icon}</a>)
-}
-
 export default class Publication extends Component {
     static propTypes = {
         pub: PropTypes.object.isRequired
@@ -99,6 +66,7 @@ export default class Publication extends Component {
             <li className={css.Publication}>
                 <h3>{pub.title}</h3>
                 <h4>{pub.subtitle}</h4>
+                <p></p>
                 <Commalist>
                     {_.map(pub.authors, (x, i) => <li key={i}><Author author={x} /></li>)}
                 </Commalist>
