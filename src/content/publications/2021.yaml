@@ -14,8 +14,6 @@ oopsla:
   publication:
 
   abstract: >
-    (Accepted at POPL, preprint will appear here)
-
     To avoid compilation errors it is desirable to verify that a compiler is
     type correct---i.e., given well-typed source code, it always outputs well-typed target code.
     This can be done intrinsically by implementing it as a function in a
@@ -35,3 +33,8 @@ oopsla:
     We show that this language enables the concise specification and implementation
     of intrinsically typed operations on bytecode, culminating in an
     intrinsically typed compiler for a language with structured control-flow.
+
+  links:
+      Preprint: ./files/popl-21-preprint.pdf
+      Agda sources: https://doi.org/10.5281/zenodo.4072067
+      Artifact VM: https://doi.org/10.5281/zenodo.4071953
