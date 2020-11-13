@@ -17,6 +17,7 @@ import Publication, {Publications} from './views/Publication.jsx'
 import News from './views/News.jsx'
 import Blog, {BlogIndex} from './views/Blog.jsx'
 import Kwta from './content/papers/Kwta.jsx'
+import Popl21 from './content/papers/Popl21.jsx'
 
 // content
 import pubs_2013 from './content/publications/2013.yaml'
@@ -99,16 +100,13 @@ function Home({}) {
 
 function Papers() {
     let { path, url } = useRouteMatch();
-    return [ <style dangerouslySetInnerHTML={{__html: `
-        body {
-          background: linear-gradient(to bottom right, #80a32a, #232839 75%);
-        }`
-      }} />
-    , <Switch>
+    return (
+      <Switch>
         <Route exact path={`${path}/knowing-when-to-ask`} component={Kwta} />
+        <Route exact path={`${path}/typesafe-compilation`} component={Popl21} />
         <Route>404</Route>
       </Switch>
-    ]
+    )
 }
 class App extends Component {
     render() {

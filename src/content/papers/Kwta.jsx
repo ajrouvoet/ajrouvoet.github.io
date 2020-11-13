@@ -7,8 +7,13 @@ import pubs_2020 from '../publications/2020.yaml'
 let kwta = pubs_2020.oopsla
 
 export default function Kwta() {
-    return (
-        <Paper pub={kwta}>
+    return [
+        <style dangerouslySetInnerHTML={{__html: `
+        body {
+          background: linear-gradient(to bottom right, #80a32a, #232839 75%);
+        }`
+        }} />
+      , <Paper pub={kwta}>
             <h4>Source Code</h4>
             <p>
                 The implementation and the case studies are publically available
@@ -28,5 +33,5 @@ export default function Kwta() {
                 <li><a href="https://doi.org/10.5281/zenodo.4068064">VM package</a></li>
             </ul>
         </Paper>
-    )
+    ]
 }
