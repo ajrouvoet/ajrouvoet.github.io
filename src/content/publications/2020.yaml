@@ -54,11 +54,10 @@ oopsla:
     of Java and Scala.
 
   links:
-      OOPSLA: https://2020.splashcon.org/track/splash-2020-oopsla#event-overview
-      pdf: ./files/oopsla-2020.pdf
-      site: /#/papers/knowing-when-to-ask
-      Extended: https://zenodo.org/record/4091445
+      pdf: https://zenodo.org/record/4091445
       Artifact: https://zenodo.org/record/4068065
+      Talk: https://www.youtube.com/watch?v=n9RmjfKnlp8
+      site: /#/papers/knowing-when-to-ask
 
 cpp:
   authors:

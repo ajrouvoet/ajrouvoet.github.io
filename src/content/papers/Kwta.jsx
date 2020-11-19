@@ -14,6 +14,12 @@ export default function Kwta() {
         }`
         }} />
       , <Paper pub={kwta}>
+            <h4>Talk at OOPSLA (pre-recorded)</h4>
+            <iframe width="560" height="315" 
+                    src="https://www.youtube.com/embed/n9RmjfKnlp8" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen />
             <h4>Source Code</h4>
             <p>
                 The implementation and the case studies are publically available

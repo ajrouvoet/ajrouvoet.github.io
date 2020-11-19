@@ -40,10 +40,15 @@
 .Abstract {
     background-color: white;
     color: black;
-    padding: 20px 20px;
+    padding: 10px 20px;
 
     text-align: justify;
     text-justify: inter-word;
+}
+
+.Abstract h3, .Abstract h4 {
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .Abstract a {
