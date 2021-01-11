@@ -14,6 +14,12 @@ export default function Popl21() {
         }`
         }} />
       , <Paper pub={popl}>
+            <h4>Talk at POPL (pre-recorded)</h4>
+              <iframe width="560" height="315" 
+                      src="https://www.youtube.com/embed/LqudAqCmecQ" 
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+              </iframe>
             <h4>Source Code</h4>
             <p>
                 The Agda library and compiler are available on GitHub:
