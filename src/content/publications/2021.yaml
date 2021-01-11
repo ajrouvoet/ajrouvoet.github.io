@@ -38,4 +38,4 @@ popl:
       Preprint: ./files/popl-21-preprint.pdf
       Agda sources: https://doi.org/10.5281/zenodo.4072067
       Artifact VM: https://doi.org/10.5281/zenodo.4071953
-      site: /#/typesafe-compilation
+      site: /#/papers/typesafe-compilation
