@@ -16,18 +16,19 @@ let posts = [
     , content: qemu
     , draft: true
     }
-  ]
-  , [ "video-talks",
+  ], 
+  [ "video-talks",
     { date: "January 2021"
     , title: "Video Talk Prepping"
     , content: videotalks
+    , draft: true
     }
-  , [ "shaken-not-made",
+  ],
+  [ "shaken-not-made",
     { date: "August 19 2020"
     , title: "Shaken not Made"
     , content: shake
     }
-    ]
   ]
 ];
 
@@ -37,9 +38,9 @@ export function BlogIndex() {
   return (
     <ol className={style.BlogHeader}>
     { _.map(posts, ([path, {draft, date, title, content}]) => (
-        draft ? <li key={path}>
+        draft ? null : <li key={path}>
           <Link to={`/blog/${path}`}><span>{title}</span> <i>({date})</i></Link>
-        </li> : null
+        </li>
       ))
     }
     </ol>
