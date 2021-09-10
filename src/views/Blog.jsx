@@ -7,22 +7,30 @@ import codestyle from '../content/blog/shaken-not-made.css'
 
 import shake from '../content/blog/shaken-not-made.html'
 import qemu  from '../content/blog/artifact-vm.html'
+import videotalks from '../content/blog/video-talks.html'
 
 let posts = [
   [ "artifact-vms",
     { date: "August 25 2020"
     , title: "Preparing Software Artifacts using QEMU"
     , content: qemu
+    , draft: true
     }
   ]
+  , [ "video-talks",
+    { date: "January 2021"
+    , title: "Video Talk Prepping"
+    , content: videotalks
+    }
   , [ "shaken-not-made",
     { date: "August 19 2020"
     , title: "Shaken not Made"
     , content: shake
-    , draft: true
     }
+    ]
   ]
-]
+];
+
 let postsMap  = _.fromPairs(posts)
 
 export function BlogIndex() {
@@ -66,7 +74,7 @@ export default function Blog() {
           <Switch>
             <Route exact path={path}>
               { _.map(posts, ([ path, {content, draft} ]) => (
-                  draft ? <PostBody key={path} content={content} /> : null
+                  draft ? null : <PostBody key={path} content={content} />
                 ))
               }
             </Route>

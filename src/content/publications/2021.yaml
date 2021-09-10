@@ -1,3 +1,38 @@
+thesis:
+  authors:
+    - who: Arjen Rouvoet
+      affiliation: Delft University of Technology
+      site: https://ajrouvoet.github.io/
+
+  title: Correct by Construction Language Implementations
+  publication:
+
+  abstract: >
+    This PhD thesis is about the design of meta-languages for the
+    specification and implementation of typed programming languages, such that
+    the implementation is formally proven type-correct. For language
+    front-ends---i.e., type checkers---this thesis investigates an approach to
+    automatically obtaining verified type checkers from declarative type-system
+    specifications. For language back-ends, this thesis investigates techniques
+    for implementing intrinsically typed definitional interpreters and
+    compilers. The idea is to use a dependently typed functional language, like
+    Agda, to integrate the specification of well-typing in the representation of
+    the program that is being interpreted or transformed. We scale this existing
+    technique from simply typed functional languages to languages with
+    references a la ML, languages with concurrency and session-typed
+    cross-thread communication, and a low-level language with labels and
+    jumps. We accomplish this using an embedding of proof-relevant monotone
+    predicates for the invariant of references, and an embedding of
+    proof-relevant separation logic for the sub-structural invariants of the
+    interpreter for the linear functional language and of the compiler. We
+    deliver interpreters and a compiler that are total and have almost no proof
+    overhead. Both the logical languages and the functional abstractions that we
+    develop on top are reusable, because they abstract over---among others---the
+    algebras that specify the invariants.
+
+  links:
+      Preprint: ./files/2021-09-10-ridderprint.pdf
+
 popl:
   authors:
     - who: Arjen Rouvoet
