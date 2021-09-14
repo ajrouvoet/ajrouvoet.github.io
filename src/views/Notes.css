@@ -1,0 +1,54 @@
+.Notes {
+    color: white;
+    background: color(white a(10%));
+}
+
+.Note {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    border-top: 1px solid color(white a(30%));
+
+    transition-property: background;
+    transition-duration: 200ms;
+    transition-timing-function: ease-out;
+}
+
+.Note > a {
+    flex: 1;
+    padding: 15px 15px;
+    padding-left: 30px;
+}
+
+.Thumb {
+    display: inline-block;
+    vertical-align: middle;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+}
+
+.Note img {
+    display: block;
+    margin: 0px auto;
+    max-width: 100px;
+    height: 100px;
+    box-shadow: 0px 0px 4px 4px color(#000 a(2%));
+    border: 1px solid color(black a(20%));
+}
+
+.Notetitle {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.Date {
+    display: inline-block;
+    font-size: 10pt;
+    margin-left: 10px;
+}
+
+.Note:hover {
+    background-color: color(white a(20%));
+}
+

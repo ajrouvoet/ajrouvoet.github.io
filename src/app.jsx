@@ -16,6 +16,7 @@ import Background from './views/Background.jsx'
 import Publication, {Publications} from './views/Publication.jsx'
 import News from './views/News.jsx'
 import Blog, {BlogIndex} from './views/Blog.jsx'
+import Notes from './views/Notes.jsx'
 import Kwta from './content/papers/Kwta.jsx'
 import Popl21 from './content/papers/Popl21.jsx'
 
@@ -89,6 +90,20 @@ function BlogPage() {
     )
 }
 
+function NotePage() {
+    return (
+       <div className={css.Section} style={{background: 'transparent'}}>
+         <h2 className={css.SectionTitle}>
+           Notes for PhD students
+         </h2>
+         <p className={css.HeaderPar} >
+           Gathering notes on subjects that took me too long to learn by osmosis.
+         </p>
+         <Notes />
+       </div>
+    )
+}
+
 function Home({}) {
     return (
         <div>
@@ -135,6 +150,7 @@ class App extends Component {
                                <Menu />
                                <Route exact path="/" component={Home} />
                                <Route path="/blog" component={BlogPage} />
+                               <Route path="/notes-for-promovendi" component={NotePage} />
                            </div>
                        </div>
                     </Route>
