@@ -48,8 +48,8 @@ export default class Profile extends Component {
 
                 <h1 className={css.title}>Arjen Rouvoet</h1>
                 <p>
-                    I'm a doctoral candidate at Technical University Delft
-                    with a growing interest in type theory and all things attached.
+                    I'm a postdoctoral researcher at Technical University Delft
+                    with an interest in applying dependent types to make software more reliable.
                 </p>
 
                 <h3>Professional interests</h3>
