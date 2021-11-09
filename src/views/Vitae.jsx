@@ -146,13 +146,14 @@ export default function Vitae() {
 
             <Subsection title={"Role"}>
               <p>
-              Although I have experience in industry (at @WalmartLabs, Occator, and at S&T), my most recent position
-              was as a researcher (PhD candidate and postdoc at TU Delft).
-              In such a role you learn to analyze large open problems and to prototype and communicate new solutions.
-              I hope to find a position that values the skills that I developed in that time.
+                Although I have experience in industry (at @WalmartLabs, Occator, and at S&T), my most recent position
+                was as a researcher (PhD candidate and postdoc at TU Delft).
+                In such a role you learn to analyze large open problems and to prototype and communicate new solutions.
+                I hope to find a position that values the skills that I developed in that time.
               </p>
-              <br />
-              Role requirements that match my profile are:
+              <p>
+                Role requirements that match my profile are:
+              </p>
               <Keywords>
                 <span>A strong conceptual thinker</span>
                 <span>Capable of defining the scope and the problem domain in a structured way</span>
@@ -162,7 +163,15 @@ export default function Vitae() {
                 <span>Values quality and sustainable solutions</span>
                 <span>Strong communicator and practiced writer in English and Dutch</span>
               </Keywords>
-              <br />
+              <p>
+                Job titles that usually peak my interest are:
+              </p>
+              <Keywords>
+                <span>Software/Solution Architect</span>
+                <span>Software Designer</span>
+                <span>Medior/Senior Software Engineer</span>
+                <span>Data Scientist</span>
+              </Keywords>
             </Subsection>
           </Section>
           <Section>
