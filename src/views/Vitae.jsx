@@ -164,7 +164,7 @@ export default function Vitae() {
                 <span>Strong communicator and practiced writer in English and Dutch</span>
               </Keywords>
               <p>
-                Job titles that usually peak my interest are:
+                Job titles that usually pique my interest are:
               </p>
               <Keywords>
                 <span>Software/Solution Architect</span>
