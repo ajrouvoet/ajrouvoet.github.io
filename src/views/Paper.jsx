@@ -17,8 +17,8 @@ export default function Paper({pub, children}) {
             {_.map(pub.authors, (x, i) => <li key={i}><Author author={x} full /></li>)}
           </ol>
           <ul className={style.Links}>
-             {_.map(pub.links, (li, key) => 
-                (key != "site") 
+             {_.map(pub.links, (li, key) =>
+                (key != "site")
                     ? <li key={key}><Link type={key} href={li} /></li>
                     : null
              ) }

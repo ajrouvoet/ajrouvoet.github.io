@@ -19,6 +19,7 @@ import Blog, {BlogIndex} from './views/Blog.jsx'
 import Notes from './views/Notes.jsx'
 import Kwta from './content/papers/Kwta.jsx'
 import Popl21 from './content/papers/Popl21.jsx'
+import Vitae from './views/Vitae.jsx'
 
 // content
 import pubs_2013 from './content/publications/2013.yaml'
@@ -57,8 +58,6 @@ function PublicationsSection() {
 }
 
 function Menu({}) {
-    // <li><Link to="/cv">Curriculum Vitae</Link></li>
-            // <li><Link to="/code">Code</Link></li>
     return (
         <ol className={css.Menu}>
           <li><Link to="/">News & Publications</Link></li>
@@ -129,6 +128,7 @@ class App extends Component {
             <Router>
                 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet" /> 
                 <Switch>
+                    <Route path="/vitae" component={Vitae} />
                     <Route path="/papers" component={Papers} />
                     <Route>
                        <style dangerouslySetInnerHTML={{__html: `
@@ -138,7 +138,6 @@ class App extends Component {
                        }} />
                        <div className={css.columns}>
                            <div className={css.left}>
-                               <Background />
                                <Profile />
 
                                <p>

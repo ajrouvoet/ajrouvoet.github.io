@@ -1,0 +1,55 @@
+functions:
+  - when: "2017–2021"
+    where: "TU Delft"
+    what: PhD Computer Science
+    how: Cum laude, awarded to top ~3% of CS promovendi in Delft
+    description: >
+      My research at the TU Delft was about using programming languages to
+      increase software reliability. In particular, I looked at formal verifcation
+      of software safety. Using a computer assisted method we develop mathematical
+      proof that certain software is safe to execute. Unlike testing, this
+      approach can guarantee the absence of certain errors and is especially
+      useful for critical software and in domains where testing is very difficult.
+
+      My research at the TU Delft is published in multiple papers at top
+      international (open-access) journals of computer science.
+
+  - when: "2016"
+    where: "Science & Technology"
+    what: "Medior Software Engineer"
+    description: >
+      At S&T I developed software to process, archive and visualize atmospheric measurement data.
+      I worked on the entire software stack including distributing the processing of the data,
+      deployment of the software services, and front-end and back-end web-development.
+      I've designed and prototyped various innovations in this software stack to utilize
+      modern technologies and make the deployment reproducible.
+
+  - when: "2015"
+    where: "@WalmartLabs"
+    what: "Paid Technical Internship in San Bruno, California"
+
+  - when: "2013–2016"
+    where: "TU Delft"
+    what: "MSc Computer Science"
+    text: ""
+
+  - when: "2012–2021"
+    where: "Occator Supply Chain Management"
+    what: "Software Engineer"
+    description: >
+      At Occator I worked on the visualization and interaction with planning data from
+      production at clients such as Friesland Campina, OTG, and Grolsch. I designed and prototyped
+      the architectural change that was necessary to support their transition to a much
+      more interactive planning tool.
+
+  - when: "2009–2013"
+    where: "TU Delft"
+    what: BSc Computer Science
+    how: Cum laude
+    text: ""
+
+  - when: "2009–2013"
+    where: "TU Delft"
+    what: BSc Electrical Engineering
+    how: Cum laude
+    text: ""

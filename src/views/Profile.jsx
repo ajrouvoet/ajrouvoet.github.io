@@ -5,7 +5,7 @@ import Modal from './Modal.jsx'
 
 import css from './Profile.css'
 
-function MailModal({onClose}) {
+export function MailModal({onClose}) {
     let computeEmail = () => {
         let name = "a.j.rouvoet"
         let domain = "tudelft.nl"
@@ -18,13 +18,36 @@ function MailModal({onClose}) {
             <div className={css.MailModal}>
                 You can contact me using the following address:
                 <br/>
-                <input type="text" value={computeEmail()} />
+                <input type="text" value={computeEmail()} readOnly />
                 <br/>
                 <div className={css.MailModalButtons}>
                     <button className={css.MailModalClose} onClick={onClose}>Close</button>
                 </div>
             </div>
         </Modal>)
+}
+
+export function Contact({toggleMail}) {
+  return (
+    <div className={css.contact}>
+        <h3>Contact</h3>
+        <ul>
+            <li>
+                <a href="https://github.com/ajrouvoet">
+                    <span className="fa fa-github"></span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.linkedin.com/in/arjen-rouvoet/">
+                    <span className="fa fa-linkedin"></span>
+                </a>
+            </li>
+            <li>
+                <a onClick={toggleMail}><span className="fa fa-envelope"></span></a>
+            </li>
+        </ul>
+    </div>
+  )
 }
 
 export default class Profile extends Component {
@@ -67,24 +90,7 @@ export default class Profile extends Component {
                     <li>bouldering</li>
                     <li>music</li>
                 </ul>
-                <div className={css.contact}>
-                    <h3>Contact me</h3>
-                    <ul>
-                        <li>
-                            <a href="https://github.com/ajrouvoet">
-                                <span className="fa fa-github"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://www.linkedin.com/in/arjen-rouvoet/">
-                                <span className="fa fa-linkedin"></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a onClick={this.toggleMailModal}><span className="fa fa-envelope"></span></a>
-                        </li>
-                    </ul>
-                </div>
+                <Contact toggleMail={this.toggleMailModal} />
             </div>
         )
     }
