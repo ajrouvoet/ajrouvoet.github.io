@@ -1,3 +1,20 @@
+profile:
+  summary: >
+    I enjoy solving problems with software. I work best in big
+    problem spaces with many challenges on the road ahead and
+    opportunities for innovation and applying
+    state-of-the-art solutions in industry. To
+    make this work, I like teaching and mentoring people, as well as
+    coordinating and cooperating with teams. I believe that the organization
+    and transfer of knowledge is a key challenge in the fast-paced world
+    of software engineering.
+
+  prive: >
+    I'm married to Irene, who is an elementary school teacher. We live in
+    the Woerden area, where we recently bought a house. In my free time, I
+    work on minor house renovations, I play chess online, and I regularly go
+    bouldering with friends and colleagues.
+  
 functions:
   - when: "2017–2021"
     where: "TU Delft"

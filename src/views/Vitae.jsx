@@ -125,16 +125,8 @@ export default function Vitae() {
             <img src="/files/defense.jpg" className={style.ProfilePic} height={250} />
           </div>
 
-          <p>
-            I enjoy solving problems with software. I work best in <strong>big
-            problem spaces</strong> with many challenges on the road ahead and
-            opportunities for <strong>innovation</strong> and applying
-            state-of-the-art solutions in industry. To
-            make this work, I like teaching and mentoring people, as well as
-            coordinating and cooperating with teams. I believe that the organization
-            and transfer of knowledge is a key challenge in the fast-paced world
-            of software engineering.
-          </p>
+          <p>{vitae.profile.summary}</p>
+          <p>{vitae.profile.prive}</p>
           <h1 className={style.MeName}>Arjen Rouvoet</h1>
           <table><tbody>
             <tr>
