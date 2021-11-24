@@ -10,10 +10,11 @@ profile:
     of software engineering.
 
   prive: >
-    I'm married to Irene, who is an elementary school teacher. We live in
-    the Woerden area, where we recently bought a house. In my free time, I
+    I'm thirty years old and married to Irene, who is an elementary school teacher in the Utrecht area.
+    We live near Woerden, where we recently bought a house. In my free time, I
     work on minor house renovations, I play chess online, and I regularly go
-    bouldering with friends and colleagues.
+    bouldering with friends and colleagues. I enjoy reading both good fiction and non-fiction
+    and love discovering new and old music and the marvelous world of HIFI.
   
 functions:
   - when: "2017–2021"
@@ -22,7 +23,7 @@ functions:
     how: Cum laude, awarded to top ~3% of CS promovendi in Delft
     description: >
       My research at the TU Delft was about using programming languages to
-      increase software reliability. In particular, I looked at formal verifcation
+      increase software reliability. In particular, I looked at formal verification
       of software safety. Using a computer assisted method we develop mathematical
       proof that certain software is safe to execute. Unlike testing, this
       approach can guarantee the absence of certain errors and is especially
