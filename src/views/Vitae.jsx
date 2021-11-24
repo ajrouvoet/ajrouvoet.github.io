@@ -1,6 +1,7 @@
 import React, {Component, Fragment, useState} from 'react'
 import {render} from 'react-dom'
 import {HashRouter as Router, Route, Link, Switch, useRouteMatch} from 'react-router-dom'
+import _ from 'lodash'
 
 import app   from '../app.css'
 import style from './Vitae.css'
@@ -11,12 +12,12 @@ import Nl2br from './Nl2br.jsx'
 import vitae from './Vitae.yaml'
 
 function Section({title, children}) {
-  return (
+  return (<div className={style.SectionWrapper}>
+    <h1>{title}</h1>
     <div className={style.Section}>
-      <h1>{title}</h1>
       {children}
     </div>
-  );
+  </div>);
 }
 
 function Subsection({title, children}) {
@@ -28,8 +29,26 @@ function Subsection({title, children}) {
   );
 }
 
+function Project({project}) {
+  let {title, img, link} = project;
+  return <div>
+    <a href={link}>
+      <img src={img} />
+      <h3>{title}</h3>
+    </a>
+  </div>;
+
+}
+
+function Projects({projects}) {
+  return <div className={style.ProjectCarousel}>{
+    _.map(projects, (p, i) => <Project key={i} project={p} />)
+  }</div>;
+}
+
 function MyFunction(fun) {
-  let {when, what, where, text} = fun;
+  let {when, what, where, text, projects} = fun;
+  console.log(projects);
   return (<Fragment>
      <tr>
       <td className={style.FunWhen}>{when}</td>
@@ -37,11 +56,22 @@ function MyFunction(fun) {
       <td className={style.FunWhat}>{what}</td>
       { fun.how ? <td className={style.FunHow}>{fun.how}</td> : <td></td> }
     </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td colSpan={2}><Nl2br>{text ? text : ""}</Nl2br></td>
-    </tr>
+    {text && (
+      <tr>
+        <td></td>
+        <td></td>
+        <td colSpan={2}><Nl2br>{text ? text : ""}</Nl2br></td>
+      </tr>)
+    }
+    {projects && (
+      <tr className={style.Projects}>
+        <td></td>
+        <td></td>
+        <td colSpan={2}>
+          <Projects projects={projects} />
+        </td>
+      </tr>
+    )}
   </Fragment>)
 }
 
@@ -67,6 +97,7 @@ export function Education() {
             what={fun.what}
             how={fun.how}
             text={fun.description}
+            projects={fun.projects}
           />
         ))}
         </tbody>
@@ -100,7 +131,7 @@ export default function Vitae() {
             opportunities for <strong>innovation</strong> and applying
             state-of-the-art solutions in industry. To
             make this work, I like teaching and mentoring people, as well as
-            coordinating and cooperating with teams. I believe that organization
+            coordinating and cooperating with teams. I believe that the organization
             and transfer of knowledge is a key challenge in the fast-paced world
             of software engineering.
           </p>
@@ -123,7 +154,7 @@ export default function Vitae() {
         <div className={app.right}>
           <Education />
           <Section title={"Looking for"}>
-            <Subsection title={"Company profile"}>
+            <Subsection title={"Organization profile"}>
               <p>
               I am looking to join an organization on a mission, with a clear idea of how it is contributing to society.
               They are facing interesting technological questions that require a new approach.
@@ -148,7 +179,7 @@ export default function Vitae() {
               <p>
                 Although I have experience in industry (at @WalmartLabs, Occator, and at S&T), my most recent position
                 was as a researcher (PhD candidate and postdoc at TU Delft).
-                In such a role you learn to analyze large open problems and to prototype and communicate new solutions.
+                In this role I learned to analyze large open problems and to prototype and communicate new solutions.
                 I hope to find a position that values the skills that I developed in that time.
               </p>
               <p>
@@ -156,7 +187,7 @@ export default function Vitae() {
               </p>
               <Keywords>
                 <span>A strong conceptual thinker</span>
-                <span>Capable of defining the scope and the problem domain in a structured way</span>
+                <span>Capable of defining the scope and the problem in a structured way</span>
                 <span>Capable of delivering a consolidated architecture</span>
                 <span>Aware of latest technical developments</span>
                 <span>Capable of structuring and sharing knowledge with and between teams</span>
@@ -174,10 +205,9 @@ export default function Vitae() {
               </Keywords>
             </Subsection>
           </Section>
-          <Section>
-            <h1>Skills</h1>
+          <Section title={"Skills"}>
             <h3>Application domains</h3>
-            See my experiences for brief summaries of the domains in which I worked.
+            See my experience a for brief summary of the domains in which I worked.
 
             <h3>Skills</h3>
             I consider my most valuable skills to be the soft skills that one acquires during a PhD:
@@ -196,10 +226,10 @@ export default function Vitae() {
             </Keywords>
 
             <p>
-            My research subject was the use programming languages to increase software reliability in various ways.
-            For example, we developed new languages to model concepts from complicated domains more concisely and safely.
-            We also study how to improve general purpose languages through language design and tooling to prevent common bugs and security leaks.
-            This means I have a lot of experience with:
+            My research was about using programming languages to increase software reliability in various ways.
+            For example, we developed new languages to model complicated domains more concisely and safely.
+            We also study how to improve general purpose languages through language design and tooling to
+            prevent, for example, common bugs and security leaks. This means I have a lot of experience with:
             </p>
 
             <Keywords>

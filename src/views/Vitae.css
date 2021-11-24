@@ -13,6 +13,8 @@ p {
 
 h1 {
   text-transform: uppercase;
+  font-size: 25pt;
+  color: white;
 }
 
 h3 {
@@ -29,13 +31,20 @@ h3 {
   padding: 20px;
 }
 
+.SectionWrapper h1 {
+  margin-top: 15px;
+  margin-left: 20px;
+  margin-bottom: 0px;
+}
+
 .Section {
   composes: CastShadow;
   composes: Content;
 
   width: 100%;
   margin: 15px auto;
-  margin-top: 60px;
+  margin-bottom: 0px;
+  margin-top: 0px;
   position: relative;
 }
 
@@ -72,7 +81,7 @@ h3 {
   margin-right: 30px;
   flex: 1;
 }
-  
+
 .Card:last-child {
   margin-right: 0px;
 }
@@ -122,7 +131,7 @@ h3 {
 }
 
 .Fill {
-  padding: 0px;  
+  padding: 0px;
 }
 
 .Profile p {
@@ -167,19 +176,29 @@ td {
 
 .Keywords {
   display: flex;
-  margin-top: 20px;
+  margin: 20px 0px;
   flex-wrap: wrap;
   flex-direction: row;
   gap: 10px 10px;
 }
 
-.Keywords > span, 
+.Keywords > span,
 .Keywords > p {
   white-space: nowrap;
   background-color: color(darkcyan a(30%));
   padding: 5px 10px;
   border-radius: 2px;
   border: 1px solid darkcyan;
+  font-size: 12px;
+
+  transition-property: background-color;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in-out;
+}
+
+.Keywords > span:hover,
+.Keywords > p:hover {
+  background-color: color(darkcyan a(50%));
 }
 
 .Keywords span {
@@ -191,4 +210,38 @@ td {
 .Keywords p {
   flex-basis: content-max;
   display: block;
+}
+
+.Projects h2 {
+  font-size: 11pt;
+}
+
+.Projects h3:before {
+  content: "↑ ";
+}
+
+.Projects h3 {
+  padding: 0px;
+  margin: 0px;
+  font-family: 'Source Sans Pro', serif;
+  font-weight: normal;
+  font-size: 10pt;
+}
+
+.Projects img {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 3px;
+  border: 1px solid black;
+}
+
+.ProjectCarousel {
+  display: flex;
+  flex-direction: row;
+}
+
+.ProjectCarousel > div {
+  flex: 0;
+  margin-right: 10px;
 }

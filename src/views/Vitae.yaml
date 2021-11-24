@@ -1,7 +1,7 @@
 functions:
   - when: "2017–2021"
     where: "TU Delft"
-    what: PhD Computer Science
+    what: PhD Computer Science > Software Engineering Dept.
     how: Cum laude, awarded to top ~3% of CS promovendi in Delft
     description: >
       My research at the TU Delft was about using programming languages to
@@ -13,6 +13,15 @@ functions:
 
       My research at the TU Delft is published in multiple papers at top
       international (open-access) journals of computer science.
+      As part of the research I designed and implemented various programming languages.
+      I also taught and assisted in various MSc courses and supervised BSc and MSc students.
+    projects:
+      - title: Doctoral dissertation
+        img: files/images/thesis.jpg
+        link: https://ajrouvoet.github.io/files/thesis.pdf
+      - title: Academic publications
+        img: files/images/papers.png
+        link: https://dblp.uni-trier.de/pid/211/9233.html
 
   - when: "2016"
     where: "Science & Technology"
@@ -23,15 +32,27 @@ functions:
       deployment of the software services, and front-end and back-end web-development.
       I've designed and prototyped various innovations in this software stack to utilize
       modern technologies and make the deployment reproducible.
+    projects:
+      - title: Toolbox with ESA
+        img: files/images/atmospheric-toolbox.png
+        link: https://atmospherictoolbox.org/
 
   - when: "2015"
     where: "@WalmartLabs"
-    what: "Paid Technical Internship in San Bruno, California"
+    what: "Paid Software Engineering Internship in San Bruno, California"
 
   - when: "2013–2016"
     where: "TU Delft"
     what: "MSc Computer Science"
-    text: ""
+    description: >
+      In my master thesis project I worked on a mathematical formalization
+      of implicit resolution in the Scala programming language.
+      The goal of such a formalization is to improve our understanding of the language
+      to improve the implementation and evolve the language.
+    projects:
+      - title: MSc. thesis
+        link: files/msc-thesis.pdf
+        img: files/images/msc.png
 
   - when: "2012–2021"
     where: "Occator Supply Chain Management"
@@ -41,6 +62,11 @@ functions:
       production at clients such as Friesland Campina, OTG, and Grolsch. I designed and prototyped
       the architectural change that was necessary to support their transition to a much
       more interactive planning tool.
+      
+    projects:
+      - title: Occasee
+        link: https://occasee.occator.com/
+        img: files/images/occasee_01.png
 
   - when: "2009–2013"
     where: "TU Delft"

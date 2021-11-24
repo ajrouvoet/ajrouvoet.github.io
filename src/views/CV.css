@@ -1,0 +1,126 @@
+:root {
+  --dim: color(#232839 a(75%));
+}
+
+.Body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  background: linear-gradient(to bottom right, goldenrod, #232839 75%);
+  text-align: center;
+
+  font-family: roboto;
+  color: #222;
+  line-height: 1.5;
+}
+
+.CVWrapper {
+  margin: 0px auto;
+  margin-top: 30px;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+}
+
+.Dashboard {
+  display: flex;
+  flex-direction: row nowrap;
+  max-height: 150px;
+  text-align: left;
+  padding: 10px;
+}
+
+.DashboardItem {
+  flex: 1;
+}
+
+.ProfilePic {
+  margin-top: -95px;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+.CastShadow {
+  box-shadow: 0px 0px 10px color(var(--dim) a(10%));
+}
+
+.Content {
+  background-color: white;
+  text-align: justify;
+  padding: 20px;
+}
+
+.Section {
+  composes: CastShadow;
+  composes: Content;
+
+  width: 100%;
+  margin: 15px auto;
+  margin-top: 40px;
+  position: relative;
+}
+
+.Section h1 {
+  position: absolute;
+  top: -36px;
+  right: 30px;
+  text-shadow: 2px 0px color(black a(60%));
+  font-size: 25pt;
+  color: white;
+}
+
+.Section h1.Larger {
+  top: -38pt;
+  font-size: 35pt;
+}
+
+.TransparentSection {
+  display: flex;
+  flex-direction: row;
+  padding: 0px;
+  composes: Section;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.HCardSection {
+  display: flex;
+  padding: 0px;
+  flex-direction: row;
+  composes: Section;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.Card {
+  composes: CastShadow;
+  margin-right: 30px;
+  flex: 1;
+}
+  
+.Card:last-child {
+  margin-right: 0px;
+}
+
+.ImgCard {
+  composes: Card;
+  flex: 0;
+}
+
+.WhiteCard {
+  composes: Card;
+  composes: Content;
+}
+
+.Section h1 {
+}
+
+.Subsection {
+}
+
+.Enum li {
+}
