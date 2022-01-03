@@ -8,6 +8,15 @@ export default function Notes() {
     return (
       <ol className={css.Notes}>
         <li className={css.Note}>
+          <a href="/files/notes/publishing.pdf">
+            <div className={css.Thumb}>
+              <img src="/files/images/publishing.png" />
+            </div>
+            <span className={css.Notetitle}>Publishing Papers in CS.PL</span>
+            <span className={css.Date}>(2 Jan. 22)</span>
+          </a>
+        </li>
+        <li className={css.Note}>
           <a href="/files/notes/biblio.pdf">
             <div className={css.Thumb}>
               <img src="/files/images/bib.png" />
