@@ -8,7 +8,7 @@ import css from './Profile.css'
 export function MailModal({onClose}) {
     let computeEmail = () => {
         let name = "a.j.rouvoet"
-        let domain = "tudelft.nl"
+        let domain = "gmail.com"
 
         return `${name}@${domain}`
     }
