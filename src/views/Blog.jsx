@@ -14,6 +14,7 @@ let posts = [
     { date: "August 25 2020"
     , title: "Preparing Software Artifacts using QEMU"
     , content: qemu
+    , draft: true
     }
   ], 
   [ "video-talks",
