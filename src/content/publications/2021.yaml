@@ -1,4 +1,4 @@
-thesis:
+- thesis:
   authors:
     - who: Arjen Rouvoet
       affiliation: Delft University of Technology
@@ -33,7 +33,7 @@ thesis:
   links:
       Thesis: ./files/thesis.pdf
 
-popl:
+- popl: true
   authors:
     - who: Arjen Rouvoet
       affiliation: Delft University of Technology

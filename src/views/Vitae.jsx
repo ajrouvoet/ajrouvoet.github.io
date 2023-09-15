@@ -1,6 +1,6 @@
 import React, {Component, Fragment, useState} from 'react'
 import {render} from 'react-dom'
-import {HashRouter as Router, Route, Link, Switch, useRouteMatch} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import _ from 'lodash'
 
 import app   from '../app.css'

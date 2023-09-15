@@ -4,9 +4,9 @@ import _ from 'lodash'
 import Paper from '../../views/Paper.jsx'
 
 import pubs_2020 from '../publications/2020.yaml'
-let kwta = pubs_2020.oopsla
 
 export default function Kwta() {
+    let kwta = pubs_2020.find(pub => pub.oopsla)
     return [
         <style dangerouslySetInnerHTML={{__html: `
         body {

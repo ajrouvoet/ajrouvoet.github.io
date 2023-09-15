@@ -1,5 +1,10 @@
 @import 'style/variables';
 
+hr {
+    display: block;
+    border-top-color: black;
+}
+
 .columns {
     flex: 1;
     display: flex;

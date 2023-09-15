@@ -71,24 +71,26 @@ export default class Profile extends Component {
 
                 <h1 className={css.title}>Arjen Rouvoet</h1>
                 <p>
-                    I'm a postdoctoral researcher at Technical University Delft
-                    with an interest in applying dependent types to make software more reliable.
+                    I'm a senior software engineer on a mission to bring more state of the art
+                    techniques from academia to practice.
                 </p>
 
                 <h3>Professional interests</h3>
                 <ul className={css.interests}>
-                    <li>type theory</li>
+                    <li>functional programming</li>
+                    <li>programming languages</li>
                     <li>proof assistants</li>
                     <li>language semantics</li>
-                    <li>verified compilation</li>
                     <li>verification</li>
-                    <li>programming languages</li>
+                    <li>web-dev</li>
+                    <li>domain-specific languages</li>
                 </ul>
                 <h3>Personal interests</h3>
                 <ul className={css.interests}>
                     <li>chess</li>
                     <li>bouldering</li>
                     <li>music</li>
+                    <li>metaphysics & philosophy</li>
                 </ul>
                 <Contact toggleMail={this.toggleMailModal} />
             </div>

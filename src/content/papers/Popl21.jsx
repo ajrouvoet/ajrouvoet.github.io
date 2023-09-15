@@ -4,9 +4,9 @@ import _ from 'lodash'
 import Paper from '../../views/Paper.jsx'
 
 import pubs_2021 from '../publications/2021.yaml'
-let popl = pubs_2021.popl
 
 export default function Popl21() {
+    let popl = pubs_2021.find(it => it.popl)
     return [
         <style dangerouslySetInnerHTML={{__html: `
         body {
@@ -17,8 +17,9 @@ export default function Popl21() {
             <h4>Talk at POPL (pre-recorded)</h4>
               <iframe width="560" height="315" 
                       src="https://www.youtube.com/embed/LqudAqCmecQ" 
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen>
               </iframe>
             <h4>Source Code</h4>
             <p>

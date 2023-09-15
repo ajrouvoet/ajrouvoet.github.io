@@ -1,4 +1,4 @@
-oopsla:
+- oopsla: true
   authors:
     - who: Arjen Rouvoet
       affiliation: Delft University of Technology
@@ -59,7 +59,7 @@ oopsla:
       Talk: https://www.youtube.com/watch?v=n9RmjfKnlp8
       site: /#/papers/knowing-when-to-ask
 
-cpp:
+- cpp: true
   authors:
 
     - who: Arjen Rouvoet

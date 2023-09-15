@@ -69,3 +69,7 @@
   color: darkcyan;
   text-decoration: underline;
 }
+
+.PostSeparator {
+  border-color: transparent;
+}

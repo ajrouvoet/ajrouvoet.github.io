@@ -1,5 +1,5 @@
-import React from 'react'
-import {Route, Link, Switch, useRouteMatch, useParams} from 'react-router-dom'
+import React, {useRef, useEffect} from 'react'
+import {Route, Link, useParams} from 'react-router-dom'
 import _ from 'lodash'
 
 import style     from './Blog.css'
@@ -14,7 +14,6 @@ let posts = [
     { date: "August 25 2020"
     , title: "Preparing Software Artifacts using QEMU"
     , content: qemu
-    , draft: true
     }
   ], 
   [ "video-talks",
@@ -48,13 +47,29 @@ export function BlogIndex() {
 }
 
 function PostBody({content}) {
-  return <div dangerouslySetInnerHTML={{__html: content}}
-              className={`${codestyle.WithCode} ${style.PostBody}`} />
+  const ref = useRef(null)
+  useEffect(() => {
+    // clear
+    while(ref.current.firstChild) {
+      ref.current.removeChild(ref.current.firstChild)
+    }
+    // append the fragment
+    ref.current.appendChild(content.cloneNode(true))
+  }, [ref, content])
+
+  return (
+    <div className={style.Blog}>
+      <div className={style.Wrapper}>
+        <div ref={ref} className={`${codestyle.WithCode} ${style.PostBody}`} />
+      </div>
+    </div>
+  )
 }
 
-function Post() {
+export function PostPage() {
   let {post} = useParams()
 
+  console.log("Visiting", post)
   if(postsMap[post]) {
     let content = postsMap[post].content
 
@@ -66,24 +81,17 @@ function Post() {
   }
 }
 
-export default function Blog() {
-    let { path, url } = useRouteMatch();
-
-    return (
-      <div className={style.Blog}>
-        <div className={style.Wrapper}>
-          <Switch>
-            <Route exact path={path}>
-              { _.map(posts, ([ path, {content, draft} ]) => (
-                  draft ? null : <PostBody key={path} content={content} />
-                ))
-              }
-            </Route>
-            <Route exact path={`${path}/:post`}>
-              <Post />
-            </Route>
-          </Switch>
-        </div>
-      </div>
-    )
+export function AllPosts() {
+  return (<div>
+      {
+        posts.map(([ path, {content, draft} ]) => (
+          draft ? null : (
+            <div key={path}>
+              <PostBody content={content} />
+              <hr className={style.PostSeparator}/>
+            </div>
+          )
+        ))
+      }
+  </div>)
 }
