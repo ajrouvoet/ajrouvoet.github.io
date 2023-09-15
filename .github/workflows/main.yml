@@ -18,12 +18,11 @@ jobs:
         run: |
           npm install
           npm run build
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: github-pages
-          path: |
-            build/
+      - name: Archive page
+        run: |
+          tar cvzf github-pages.tar.gz -C build .
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v2
       - name: Deploy GitHub Page
         uses: actions/deploy-pages@v1.2.9
    
