@@ -11,7 +11,7 @@
     This PhD thesis is about the design of meta-languages for the
     specification and implementation of typed programming languages, such that
     the implementation is formally proven type-correct. For language
-    front-ends---i.e., type checkers---this thesis investigates an approach to
+    front-ends—i.e., type checkers—this thesis investigates an approach to
     automatically obtaining verified type checkers from declarative type-system
     specifications. For language back-ends, this thesis investigates techniques
     for implementing intrinsically typed definitional interpreters and
@@ -27,7 +27,7 @@
     interpreter for the linear functional language and of the compiler. We
     deliver interpreters and a compiler that are total and have almost no proof
     overhead. Both the logical languages and the functional abstractions that we
-    develop on top are reusable, because they abstract over---among others---the
+    develop on top are reusable, because they abstract over–among others–the
     algebras that specify the invariants.
 
   links:
@@ -50,7 +50,7 @@
 
   abstract: >
     To avoid compilation errors it is desirable to verify that a compiler is
-    type correct---i.e., given well-typed source code, it always outputs well-typed target code.
+    type correct—i.e., given well-typed source code, it always outputs well-typed target code.
     This can be done intrinsically by implementing it as a function in a
     dependently typed programming language, such as Agda.
     This function manipulates data types of well-typed source and target programs, and is therefore type correct by construction.

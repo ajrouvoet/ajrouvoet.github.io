@@ -48,24 +48,20 @@ function Projects({projects}) {
 
 function MyFunction(fun) {
   let {when, what, where, text, projects} = fun;
-  console.log(projects);
   return (<Fragment>
      <tr>
       <td className={style.FunWhen}>{when}</td>
-      <td className={style.FunWhere}>{where}</td>
-      <td className={style.FunWhat}>{what}</td>
+      <td className={style.FunWhat}>{what} at {where}</td>
       { fun.how ? <td className={style.FunHow}>{fun.how}</td> : <td></td> }
     </tr>
     {text && (
       <tr>
-        <td></td>
         <td></td>
         <td colSpan={2}><Nl2br>{text ? text : ""}</Nl2br></td>
       </tr>)
     }
     {projects && (
       <tr className={style.Projects}>
-        <td></td>
         <td></td>
         <td colSpan={2}>
           <Projects projects={projects} />
@@ -115,7 +111,7 @@ export default function Vitae() {
     <Fragment>
       <style dangerouslySetInnerHTML={{__html: `
         body {
-          background: linear-gradient(to bottom right, darkcyan, #232839 75%);
+          background: linear-gradient(to top right, darkcyan, #232839 75%);
         }`
       }} />
       <div className={app.columns}>
@@ -191,18 +187,18 @@ export default function Vitae() {
               </p>
               <Keywords>
                 <span>Software/Solution Architect</span>
-                <span>Software Designer</span>
-                <span>Medior/Senior Software Engineer</span>
-                <span>Data Scientist</span>
+                <span>Tech lead</span>
+                <span>Senior/Principle Software Engineer</span>
               </Keywords>
             </Subsection>
           </Section>
           <Section title={"Skills"}>
             <h3>Application domains</h3>
-            See my experience a for brief summary of the domains in which I worked.
+            Many of my skills are transferrable between application domains, and I enjoy learning about new ones.
+            See my experience a for brief summary of the domains in which I worked previously.
 
             <h3>Skills</h3>
-            I consider my most valuable skills to be the soft skills that one acquires during a PhD:
+            I consider my most valuable skills to be the ones that I first acquires during a PhD:
 
             <Keywords>
               <span>Acquiring new skills fast</span>
@@ -213,7 +209,7 @@ export default function Vitae() {
               <span>Presenting a convincing argument</span>
               <span>Communicating a message at different levels</span>
               <span>Mentoring and teaching</span>
-              <span>Leading and cooperating in a team</span>
+              <span>Leading a team</span>
               <span>Organizing knowledge</span>
             </Keywords>
 
@@ -225,7 +221,7 @@ export default function Vitae() {
             </p>
 
             <Keywords>
-              <span>Developing formal models</span>
+              <span>Developing models</span>
               <span>Designing abstractions/APIs</span>
               <span>Evaluating designs</span>
               <span>Implementing software prototypes</span>
@@ -235,8 +231,8 @@ export default function Vitae() {
             <p>
             Besides the understanding of programming languages and software development in the large that I
             acquired through my research at the TU Delft, I also have hands-on experience with software in
-            industry. In all my jobs I have been a driving force behind innovation, architecting and
-            prototyping change to more modern or capable technology. An important aspect of my work has always
+            industry. In all my jobs I have been a <strong>driving force behind innovation, architecting and
+            prototyping change</strong> to more modern or capable technology. An important aspect of my work has always
             been to bring teams along with these changes, so I consider knowledge transfer an important and
             enjoyable part of innovation. Through these projects I obtained hands-on experience with various
             technologies, tools, and programming languages, such as:

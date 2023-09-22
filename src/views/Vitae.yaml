@@ -1,22 +1,29 @@
 profile:
   summary: >
-    I enjoy solving problems with software. I work best in big
-    problem spaces with many challenges on the road ahead and
-    opportunities for innovation and applying
-    state-of-the-art solutions in industry. To
-    make this work, I like teaching and mentoring people, as well as
-    coordinating and cooperating with teams. I believe that the organization
-    and transfer of knowledge is a key challenge in the fast-paced world
-    of software engineering.
+    I enjoy solving problems with software. I work best in big problem spaces
+    with many challenges on the road ahead.  I like to understand the root
+    problems and to drive innovation to solve those problems.  To make this
+    work, I like to teach and mentor people, and I like to get involved in the
+    process beyond the technical development (sales, marketing, and management)
+    to align the organisation on a vision for the product that we are building.
+    I believe that the organization and transfer of knowledge is a key challenge
+    in the fast-paced world of software engineering.
 
   prive: >
-    I'm thirty years old and married to Irene, who is an elementary school teacher in the Utrecht area.
-    We live near Woerden, where we recently bought a house. In my free time, I
-    work on minor house renovations, I play chess online, and I regularly go
-    bouldering with friends and colleagues. I enjoy reading both good fiction and non-fiction
-    and love discovering new and old music and the marvelous world of HIFI.
+    I'm 32 years old and married to Irene, who is an elementary school teacher in the Utrecht area.
+    In my free time, I work on minor house renovations, I play chess online, and I enjoy bouldering
+    and indoor soccer. I read a lot—both fiction and non-fiction—as a source of inspiration and leisure.
   
 functions:
+  - when: "2013–current"
+    where: "Riscure"
+    what: Senior Software Engineer
+    description: >
+      At Riscure, I worked on an innovation project to analyse embedded C to identify security
+      vulnerabilities. I helped formulate a new technical vision to shape the product offering
+      and future development, and I produced the software architecture to support the implementation
+      of this vision. I helped the team transition from Java to Kotlin as we filled in the design.
+
   - when: "2017–2021"
     where: "TU Delft"
     what: PhD Computer Science > Software Engineering Dept.

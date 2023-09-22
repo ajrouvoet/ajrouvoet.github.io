@@ -180,6 +180,7 @@ td {
   flex-wrap: wrap;
   flex-direction: row;
   gap: 10px 10px;
+  border-radius: 5px;
 }
 
 .Keywords > span,

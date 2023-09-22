@@ -70,7 +70,6 @@ function PostBody({content}) {
 export function PostPage() {
   let {post} = useParams()
 
-  console.log("Visiting", post)
   if(postsMap[post]) {
     let content = postsMap[post].content
 
