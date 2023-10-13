@@ -121,8 +121,8 @@ export default function Vitae() {
             <img src="/files/defense.jpg" className={style.ProfilePic} height={250} />
           </div>
 
-          <p>{vitae.profile.summary}</p>
-          <p>{vitae.profile.prive}</p>
+          <Nl2br>{vitae.profile.summary}</Nl2br>
+          <Nl2br>{vitae.profile.prive}</Nl2br>
           <h1 className={style.MeName}>Arjen Rouvoet</h1>
           <table><tbody>
             <tr>
@@ -141,76 +141,22 @@ export default function Vitae() {
         </div>
         <div className={app.right}>
           <Education />
-          <Section title={"Looking for"}>
-            <Subsection title={"Organization profile"}>
-              <p>
-              I am looking to join an organization on a mission, with a clear idea of how it is contributing to society.
-              They are facing interesting technological questions that require a new approach.
-              They recognize the human challenges of developing and communicating sustainable high-tech solutions.
-              </p>
-              <Keywords>
-                <span>Sustainable</span>
-                <span>Social</span>
-                <span>Health</span>
-                <span>Positive impact</span>
-                <span>Green</span>
-                <span>Big open problems</span>
-              </Keywords>
-            </Subsection>
-
-            <p>
-            An important criterion for me is that the product or service that I will be working on is valuable and
-            will push the boundary of what is possible today—technically or practically.
-            </p>
-
-            <Subsection title={"Role"}>
-              <p>
-                Although I have experience in industry (at @WalmartLabs, Occator, and at S&T), my most recent position
-                was as a researcher (PhD candidate and postdoc at TU Delft).
-                In this role I learned to analyze large open problems and to prototype and communicate new solutions.
-                I hope to find a position that values the skills that I developed in that time.
-              </p>
-              <p>
-                Role requirements that match my profile are:
-              </p>
-              <Keywords>
-                <span>A strong conceptual thinker</span>
-                <span>Capable of defining the scope and the problem in a structured way</span>
-                <span>Capable of delivering a consolidated architecture</span>
-                <span>Aware of latest technical developments</span>
-                <span>Capable of structuring and sharing knowledge with and between teams</span>
-                <span>Values quality and sustainable solutions</span>
-                <span>Strong communicator and practiced writer in English and Dutch</span>
-              </Keywords>
-              <p>
-                Job titles that usually pique my interest are:
-              </p>
-              <Keywords>
-                <span>Software/Solution Architect</span>
-                <span>Tech lead</span>
-                <span>Senior/Principle Software Engineer</span>
-              </Keywords>
-            </Subsection>
-          </Section>
-          <Section title={"Skills"}>
-            <h3>Application domains</h3>
-            Many of my skills are transferrable between application domains, and I enjoy learning about new ones.
-            See my experience a for brief summary of the domains in which I worked previously.
+          <Section title={"Experience"}>
+            <Nl2br>{vitae.experience}</Nl2br>
 
             <h3>Skills</h3>
             I consider my most valuable skills to be the ones that I first acquires during a PhD:
 
             <Keywords>
-              <span>Acquiring new skills fast</span>
+              <span>Acquiring new skills</span>
               <span>Structured problem solving</span>
-              <span>Ability to understand state-of-the-art developments</span>
-              <span>Written and spoken communication (in English and Dutch)</span>
+              <span>Ability to understand state-of-the-art</span>
+              <span>Written and spoken communication (English & Dutch)</span>
               <span>Technical writing and documentation</span>
               <span>Presenting a convincing argument</span>
               <span>Communicating a message at different levels</span>
               <span>Mentoring and teaching</span>
               <span>Leading a team</span>
-              <span>Organizing knowledge</span>
             </Keywords>
 
             <p>
@@ -234,28 +180,55 @@ export default function Vitae() {
             industry. In all my jobs I have been a <strong>driving force behind innovation, architecting and
             prototyping change</strong> to more modern or capable technology. An important aspect of my work has always
             been to bring teams along with these changes, so I consider knowledge transfer an important and
-            enjoyable part of innovation. Through these projects I obtained hands-on experience with various
-            technologies, tools, and programming languages, such as:
+            enjoyable part of innovation.
             </p>
 
-            <Keywords>
-              <span>Relational databases (MySQL, MSSQL, PostgreSQL)</span>
-              <span>Web frameworks (e.g., React, Angular, Django)</span>
-              <span>Software deployment tools (e.g., using Nix)</span>
-              <span>Cloud infrastructure (e.g., Docker)</span>
-              <span>Version control (GIT, SVN)</span>
-              <span>Python</span>
-              <span>Java</span>
-              <span>Scala</span>
-              <span>C#</span>
-              <span>C</span>
-              <span>Typescript</span>
-              <span>Javascript</span>
-              <span>Haskell</span>
-              <span>Nix</span>
-              <span>Agda</span>
-            </Keywords>
+          </Section>
+          <Section title={"Looking for"}>
+            <Subsection title={"Organization profile"}>
+              <p>
+              I am looking to join an organization on a mission, with a clear idea of how it is contributing to society.
+              They are facing interesting technological questions that require a new approach.
+              They recognize the human challenges of developing and communicating sustainable high-tech solutions.
+              </p>
+              <Keywords>
+                <span>Sustainable</span>
+                <span>Social</span>
+                <span>Health</span>
+                <span>Positive impact</span>
+                <span>Green</span>
+                <span>Big open problems</span>
+              </Keywords>
+            </Subsection>
 
+            <p>
+            An important criterion for me is that the product or service that I will be working on is valuable and
+            will push the boundary of what is possible today—technically or practically.
+            </p>
+
+            <Subsection title={"Role"}>
+              <Nl2br>{vitae.role}</Nl2br>
+              <p>
+                Role requirements that match my profile are:
+              </p>
+              <Keywords>
+                <span>A strong conceptual thinker</span>
+                <span>Capable of defining the scope and the problem in a structured way</span>
+                <span>Capable of delivering a consolidated architecture</span>
+                <span>Aware of latest technical developments</span>
+                <span>Capable of structuring and sharing knowledge with and between teams</span>
+                <span>Values quality and sustainable solutions</span>
+                <span>Strong communicator and practiced writer in English and Dutch</span>
+              </Keywords>
+              <p>
+                Job titles that usually pique my interest are:
+              </p>
+              <Keywords>
+                <span>Software/Solution Architect</span>
+                <span>Tech lead</span>
+                <span>Senior/Principle Software Engineer</span>
+              </Keywords>
+            </Subsection>
           </Section>
         </div>
       </div>

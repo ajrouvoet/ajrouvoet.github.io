@@ -1,19 +1,65 @@
 profile:
   summary: >
-    I enjoy solving problems with software. I work best in big problem spaces
-    with many challenges on the road ahead.  I like to understand the root
-    problems and to drive innovation to solve those problems.  To make this
-    work, I like to teach and mentor people, and I like to get involved in the
-    process beyond the technical development (sales, marketing, and management)
-    to align the organisation on a vision for the product that we are building.
-    I believe that the organization and transfer of knowledge is a key challenge
-    in the fast-paced world of software engineering.
+    I enjoy solving problems with software. I work best in <strong>big problem spaces</strong> with
+    many challenges on the road ahead. I like to understand the root problems and to
+    <strong>drive innovation</strong> to solve those problems. To make this work,
+    I like to <strong>teach</strong> and
+    mentor people, and I like to get involved in the process beyond the technical
+    development to align the organisation on a <strong>vision</strong> for the product or service.
+    I believe that the organization and <strong>transfer of
+    knowledge</strong> is the key challenge in the fast-paced world of software
+    engineering.
+
+    It is important for me to work on something that is <strong>relevant to society</strong>. I believe
+    that we need to transition to a more sustainable and fair future and I want to
+    contribute.
 
   prive: >
-    I'm 32 years old and married to Irene, who is an elementary school teacher in the Utrecht area.
-    In my free time, I work on minor house renovations, I play chess online, and I enjoy bouldering
-    and indoor soccer. I read a lot—both fiction and non-fiction—as a source of inspiration and leisure.
-  
+    On a more peronsal level: I'm 32 years old and married to Irene, who is
+    an elementary school teacher in the Utrecht area. In my free time, I
+    work on minor house renovations, I play chess online, and I enjoy
+    bouldering and indoor soccer. I read a lot—both fiction and
+    non-fiction—as a source of inspiration and leisure.
+
+experience: >
+    As a software developer, I am not tied to any particular programming
+    language.  I have experience with many mainstream languages (<strong>Java, Kotlin,
+    Scala, C#, Python, Javascript & friends, C, ...</strong>), as well as off-beat ones
+    (<strong>OCaml, Haskell, Agda, ...</strong>). I have worked with relational and
+    unstructured databases (<strong>MySQL, MSSQL, PostgreSQL</strong>), with various web frameworks
+    (<strong>Laravel, Django</strong>), frontend frameworks (<strong>React, Angular</strong>),
+    devops tooling (<strong>NixOS, docker, Vagrant</strong>),
+    and, naturally, version control systems (<strong>Git, SVN</strong>).
+
+    As a software architect, I like to work from a vision for a product or
+    service that is firmly grounded in technical reality, and that encompasses
+    the whole user experience. This means that I like to help think about
+    marketing and sales aspects so that the positioning of and communication
+    around the product align with the technical aspects. At Occator and S&T I
+    took ownership of the technical aspects to implement an existing vision, and
+    at Riscure I helped develop a new vision in a small team that also
+    implemented it.
+
+    I'm an <strong>experienced writer and speaker</strong>, having published and presented
+    multiple papers at top scientific conferences of my field.  I enjoy writing
+    and presenting and use it to share knowledge in my teams and organisations.
+    For example, at Riscure I maintained a blog to document and share the vision
+    and architecture that I developed.  At the TU Delft, I taught an MSc course
+    on <strong>Software Verification</strong>.
+
+    During my PhD trajactory at the TU Delft I also learned to <strong>design and
+    execute research</strong>. I have learned how to make progress and estimate effort
+    under uncertainty. I am aware of the state of the art in programming
+    language design and tooling, as well as state of the art <strong>techniques for
+    producing highly reliable (or even formally verified) software</strong>.
+
+role: >
+    I have experience in industry (at @WalmartLabs, Occator, S&T, Riscure), but also
+    as a researcher (PhD candidate and postdoc at TU Delft). In the latter
+    role I learned to analyze large open problems and to
+    prototype and communicate new solutions.
+    I hope to find a position that values the skills that I developed in that time.
+
 functions:
   - when: "2013–current"
     where: "Riscure"
